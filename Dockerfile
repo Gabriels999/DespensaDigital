@@ -31,7 +31,7 @@ RUN mkdir /dkdata
 #### Prepare BACKEND Django API
 COPY requirements.txt ./
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements-dev.txt
 
 ENV PYTHONUNBUFFERED=1 
 ENV PYTHONDONTWRITEBYTECODE=1
