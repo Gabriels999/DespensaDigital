@@ -17,6 +17,7 @@ def add_product(new_product):
     return product.to_dict_json()
 
 def edit_product(updated_product, id):
+
     product = Product.objects.get(id=id)
     product.name = updated_product['name']
     product.price = updated_product['price']
