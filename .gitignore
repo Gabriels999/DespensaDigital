@@ -1,0 +1,12 @@
+__pycache__
+dkdata
+*.pyc
+.coverage
+coverage.xml
+htmlcov/
+.idea
+/despensa-digital.log
+.env
+.vscode/
+.eslintcache
+/.trunk
