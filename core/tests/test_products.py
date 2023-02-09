@@ -55,19 +55,19 @@ def test_edita_produto_sem_login(client, db):
     assert resp.status_code == 401
 
 
-# def test_edita_produto_com_login(client, db):
-#     fixtures.user_jon()
-#     fixtures.product_ketchup()
-#     client.force_login(User.objects.get(username='jon'))
-#     resp = client.post('/api/edit_product/1', produto)
-#     data = resp.json()
+def test_edita_produto_com_login(client, db):
+    fixtures.user_jon()
+    fixtures.product_ketchup()
+    client.force_login(User.objects.get(username='jon'))
+    resp = client.post('/api/edit_product/1', produto)
+    data = resp.json()
     
-#     assert resp.status_code == 200
-#     assert data == {
-#         'id': produto['id'],
-#         'name': produto['name'],
-#         'price': produto['price'],
-#         'target_quantity': produto['target_quantity'],
-#         'real_quantity': produto['real_quantity'],
-#         'type': produto['type'],
-#     }
+    assert resp.status_code == 200
+    assert data == {
+        'id': produto['id'],
+        'name': produto['name'],
+        'price': produto['price'],
+        'target_quantity': produto['target_quantity'],
+        'real_quantity': produto['real_quantity'],
+        'type': produto['type'],
+    }
