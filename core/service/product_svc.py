@@ -32,4 +32,5 @@ def use_product(id):
     product = Product.objects.get(id=id)
     if product.real_quantity > 0:
         product.real_quantity -= 1
+        product.save()
     return product.to_dict_json()
