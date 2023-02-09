@@ -62,6 +62,13 @@ def edit_product(request, id):
     return JsonResponse(product)
 
 
+@csrf_exempt
+@ajax_login_required
+def delete_product(request, id):
+    products = product_svc.delete_product(id)
+    return JsonResponse({"products":products})
+
+
 def _user2dict(user):
     d = {
         'id': user.id,

@@ -71,3 +71,13 @@ def test_edita_produto_sem_login(client, db):
 #         'real_quantity': produto['real_quantity'],
 #         'type': produto['type'],
 #     }
+
+def test_delete_product(client, db):
+    fixtures.user_jon()
+    fixtures.product_ketchup()
+    client.force_login(User.objects.get(username='jon'))
+    resp = client.post('/api/delete_product/1')
+    data = resp.json()
+
+    assert resp.status_code == 200
+    assert data == {'products': []}

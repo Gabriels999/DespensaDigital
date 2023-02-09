@@ -25,3 +25,10 @@ def edit_product(updated_product, id):
     product.real_quantity = updated_product['real_quantity']
     product.save()
     return product.to_dict_json()
+
+
+def delete_product(id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    products_list = Product.objects.all()
+    return [product.to_dict_json() for product in products_list]
