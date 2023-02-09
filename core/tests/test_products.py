@@ -29,7 +29,16 @@ def test_criar_produto_com_login(client, db):
     fixtures.user_jon()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/add_product', ketchup)
+    data = resp.json()
     assert resp.status_code == 200
+    assert data == {
+        'id': 1,
+        'name': 'Ketchup',
+        'price': 14.9,
+        'target_quantity': 1,
+        'real_quantity': 0,
+        'type': 'Secos',
+    }
 
 
 def test_lista_produtos_sem_login(client, db):

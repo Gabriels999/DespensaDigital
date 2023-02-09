@@ -8,10 +8,10 @@ def list_products():
 def add_product(new_product):
     product = Product(
             name=new_product['name'],
-            price=new_product['price'],
+            price=float(new_product['price']),
             type=new_product['type'],
-            target_quantity=new_product['target_quantity'],
-            real_quantity=new_product['real_quantity']
+            target_quantity=int(new_product['target_quantity']),
+            real_quantity=int(new_product['real_quantity'])
         )
     product.save()
     return product.to_dict_json()
