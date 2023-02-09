@@ -21,3 +21,14 @@ def product_ketchup():
         real_quantity= 0,
     )
     return ketchup
+
+def product_maionese():
+    maionese = Product.objects.create(
+        id=2,
+        name="Maionese",
+        type= "Secos",
+        price= 14.9,
+        target_quantity= 2,
+        real_quantity= 1,
+    )
+    return maionese
