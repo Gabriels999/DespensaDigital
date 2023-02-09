@@ -26,3 +26,10 @@ def edit_product(new_version_product, id):
     )
     new_product = Product.objects.get(id=id)
     return new_product.to_dict_json()
+
+
+def use_product(id):
+    product = Product.objects.get(id=id)
+    if product.real_quantity > 0:
+        product.real_quantity -= 1
+    return product.to_dict_json()
