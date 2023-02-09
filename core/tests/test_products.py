@@ -88,9 +88,6 @@ def test_usar_produto_sem_login(client, db):
     assert resp.status_code == 401
 
 
-# @pytest.mark.parametrize(
-
-# )
 def test_usar_produto_com_login(client, db):
     fixtures.user_jon()
     fixtures.product_maionese()
@@ -102,8 +99,26 @@ def test_usar_produto_com_login(client, db):
     assert data == {
         "id": 2,
         "name": 'Maionese',
-        "price": 14.9,
-        "real_quantity": 0,
-        "target_quantity": 2,
         "type": 'Secos',
+        "price": 14.9,
+        "target_quantity": 2,
+        "real_quantity": 0,
+    }
+
+
+def test_usar_produto_sem_estoque(client, db):
+    fixtures.user_jon()
+    fixtures.product_ketchup()
+    client.force_login(User.objects.get(username='jon'))
+    resp = client.post('/api/use_product/1')
+    data = resp.json()
+
+    assert resp.status_code == 200
+    assert data == {
+        "id": 1,
+        "name": 'Ketchup',
+        "type": 'Secos',
+        "price": 14.9,
+        "target_quantity": 1,
+        "real_quantity": 0,
     }
