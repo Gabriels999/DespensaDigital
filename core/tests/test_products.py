@@ -1,6 +1,4 @@
-import pytest
-
-from core.models import User, Product
+from core.models import User
 from core.tests import fixtures
 
 ketchup ={
