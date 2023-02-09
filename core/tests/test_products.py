@@ -16,7 +16,7 @@ maionese ={
         "name": 'Maionese',
         "price": 14.9,
         "target_quantity": 2,
-        "real_quantity": 0,
+        "real_quantity": 1,
         "type": 'Secos',
   }
 
