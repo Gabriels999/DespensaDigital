@@ -28,6 +28,13 @@ def edit_product(new_version_product, id):
     return new_product.to_dict_json()
 
 
+def delete_product(id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    products_list = Product.objects.all()
+    return [product.to_dict_json() for product in products_list]
+
+
 def use_product(id):
     product = Product.objects.get(id=id)
     if product.real_quantity > 0:

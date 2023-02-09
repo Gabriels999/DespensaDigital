@@ -90,7 +90,18 @@ def test_edita_produto_com_login(client, db):
         'real_quantity': ketchup['real_quantity'],
         'type': ketchup['type'],
     }
+    
 
+def test_delete_product(client, db):
+    fixtures.user_jon()
+    fixtures.product_ketchup()
+    client.force_login(User.objects.get(username='jon'))
+    resp = client.post('/api/delete_product/1')
+    data = resp.json()
+
+    assert resp.status_code == 200
+    assert data == {'products': []}
+    
 
 def test_usar_produto_sem_login(client, db):
     resp = client.post('/api/use_product/1')

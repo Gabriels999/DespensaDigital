@@ -64,6 +64,13 @@ def edit_product(request, id):
 
 @csrf_exempt
 @ajax_login_required
+def delete_product(request, id):
+    products = product_svc.delete_product(id)
+    return JsonResponse({"products":products})
+
+
+@csrf_exempt
+@ajax_login_required
 def use_product(request, id):
     product = product_svc.use_product(id)
     return JsonResponse(product)
