@@ -6,8 +6,9 @@
           <v-card-title class="headline"> Products </v-card-title>
         </v-card>
       </v-col>
+      <PopupShoppingList/>
       <PopupCreateProducts @createProduct="createProduct"/>
-      <v-col v-for="item in items" :key="item.id" cols="12">
+      <v-col v-for="item in productsList" :key="item.id" cols="12">
         <product 
         :product="item" 
         @delProduct="deleteProduct" 
@@ -24,10 +25,12 @@ import { useAppStore } from "@/stores/appStore"
 import API from "@/api/products.api.js"
 import Product from "@/components/Product.vue"
 import PopupCreateProducts from "@/components/PopupCreateProducts.vue";
+import PopupShoppingList from "@/components/PopupShoppingList.vue";
 
 export default {
   name: "ProductsList",
-  components: { Product, PopupCreateProducts },
+  components: {
+    Product, PopupCreateProducts, PopupShoppingList },
   setup() {
     const appStore = useAppStore()
     return { appStore }
@@ -35,7 +38,7 @@ export default {
   data() {
     return {
       loading: false,
-      items: [],
+      productsList: [],
     }
   },
   mounted() {
@@ -45,7 +48,7 @@ export default {
     getProducts() {
       this.loading = true
       API.getProducts().then((data) => {
-        this.items = data.products
+        this.productsList = data.products
         this.loading = false
       })
     },

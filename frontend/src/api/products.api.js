@@ -48,7 +48,7 @@ export default {
         .catch((error) => {
           return reject(error);
         });
-    });
+      });
   },
   useProduct: (id) => {
     return new Promise((resolve, reject) => {
@@ -56,6 +56,18 @@ export default {
       .post(`/api/products/use_product/${id}`, apiHelpers.dataToForm({id}))
       .then((response) => {
         return resolve(response.data);
+      })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+  },
+  getShoppingList: () => {
+    return new Promise((resolve, reject) => {
+      api
+        .get("/api/products/shopping_list")
+        .then((response) => {
+          return resolve(response.data);
         })
         .catch((error) => {
           return reject(error);
