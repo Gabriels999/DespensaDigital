@@ -14,10 +14,10 @@ export default {
         });
     });
   },
-  addNeTask: (description) => {
+  createProduct: (product) => {
     return new Promise((resolve, reject) => {
       api
-        .post("/api/add_todo", apiHelpers.dataToForm({ description }))
+        .post("/api/products/add_product", apiHelpers.dataToForm(product))
         .then((response) => {
           return resolve(response.data);
         })

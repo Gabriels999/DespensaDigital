@@ -48,7 +48,7 @@
                 class="mr-4"
                 @click="validate"
               >
-                {{ product ? "Editar" : "Criar" }}
+                Criar
               </v-btn>
               <v-card-actions class="justify-end">
                 <v-btn class="error" text @click="isActive.value = false"
@@ -65,8 +65,6 @@
 
 <script>
 //TODO: Tem um jeito de fazer fechar diretamente como na linha 65 sem perder a oportunidade de usar a funcao na linha 59?
-
-import API from "@/api/products.api";
 
 export default {
   name: "PopupCreateProduct",
@@ -101,7 +99,7 @@ export default {
     addProduct() {
       const newProduct = {
         name: this.name,
-        price: this.price,
+        price: this.price, // dar um jeito de permitir , nesse valor
         type: this.typePicker,
         target_quantity: this.target_quantity,
         real_quantity: this.real_quantity,

@@ -6,7 +6,7 @@
           <v-card-title class="headline"> Tasks </v-card-title>
         </v-card>
       </v-col>
-      <PopupCreateProducts/>
+      <PopupCreateProducts @createProduct="createProduct"/>
       <v-col v-for="item in items" :key="item.id" cols="12">
         <product 
         :product="item" 
@@ -47,13 +47,14 @@ export default {
         this.loading = false
       })
     },
-    deleteProduct(id) {
+    createProduct(product) {
       this.loading = true
-      API.deleteProduct(id).then(() => {
-        this.appStore.showSnackbar('Produto deletado.')
+      console.log(product)
+      API.createProduct(product).then((product) => {
+        this.appStore.showSnackbar(`Nova tarefa adicionada #${product.id}`)
         this.getProducts()
         this.loading = false
-      });
+      })
     },
     updateProduct(obj) {
       this.loading = true
@@ -65,14 +66,14 @@ export default {
         this.loading = false
       })
     },
-    addNewTask(task) {
+    deleteProduct(id) {
       this.loading = true
-      API.addNewTask(task.title).then((task) => {
-        this.appStore.showSnackbar(`Nova tarefa adicionada #${task.id}`)
+      API.deleteProduct(id).then(() => {
+        this.appStore.showSnackbar('Produto deletado.')
         this.getProducts()
         this.loading = false
-      })
-    },
+      });
+    }
   },
 }
 </script>
