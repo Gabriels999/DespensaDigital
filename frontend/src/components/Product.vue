@@ -26,6 +26,9 @@
       <v-btn :loading="loading" class="ma-1" color="error" plain @click="deleteProduct(product)">
         Delete
       </v-btn>
+      <v-btn class="ma-1" color="light-blue-lighten-2" plain @click="useProduct(product)">
+        Use Product
+      </v-btn>
     </v-col>
   </v-card>
 </template>
@@ -36,7 +39,7 @@ import PopupEditProducts from "@/components/PopupEditProducts.vue";
 
 export default {
   name: "ProductModel",
-  emits: ['delProduct', 'upProduct'],
+  emits: ['delProduct', 'upProduct', 'useProduct'],
   components: { PopupEditProducts },
   props: {
     product: {
@@ -55,6 +58,9 @@ export default {
     },
     updateProduct(item){
       this.$emit('upProduct', item)
+    },
+    useProduct(item){
+      this.$emit('useProduct', item)
     }
   },
 }

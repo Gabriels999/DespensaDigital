@@ -1,5 +1,5 @@
-from accounts.models import User
-from .tests import fixtures
+from django.contrib.auth.models import User
+from . import fixtures
 
 ketchup ={
         "id": 1,

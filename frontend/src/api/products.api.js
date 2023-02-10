@@ -29,7 +29,7 @@ export default {
   updateProduct: (product) => {
     return new Promise((resolve, reject) => {
       api
-        .post("/api/products/update_product/", apiHelpers.dataToForm(product))
+        .post(`/api/products/edit_product/${product.id}`, apiHelpers.dataToForm(product))
         .then((response) => {
           return resolve(response.data);
         })
@@ -40,8 +40,20 @@ export default {
   },
   deleteProduct: (id) => {
     return new Promise((resolve, reject) => {
-      api // Isso aqui nao faz sentido, pedir ajuda
-      .post('/api/products/delete_product/', apiHelpers.dataToForm({id}))
+      api
+      .post(`/api/products/delete_product/${id}`, apiHelpers.dataToForm({id}))
+      .then((response) => {
+        return resolve(response.data);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+  },
+  useProduct: (id) => {
+    return new Promise((resolve, reject) => {
+      api
+      .post(`/api/products/use_product/${id}`, apiHelpers.dataToForm({id}))
       .then((response) => {
         return resolve(response.data);
         })

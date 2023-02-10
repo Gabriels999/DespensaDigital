@@ -3,7 +3,7 @@
     <v-row justify="center" align="center">
       <v-col cols="12">
         <v-card>
-          <v-card-title class="headline"> Tasks </v-card-title>
+          <v-card-title class="headline"> Products </v-card-title>
         </v-card>
       </v-col>
       <PopupCreateProducts @createProduct="createProduct"/>
@@ -11,7 +11,9 @@
         <product 
         :product="item" 
         @delProduct="deleteProduct" 
-        @upProduct="updateProduct"/>
+        @upProduct="updateProduct"
+        @useProduct="useProduct"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -49,19 +51,16 @@ export default {
     },
     createProduct(product) {
       this.loading = true
-      console.log(product)
       API.createProduct(product).then((product) => {
-        this.appStore.showSnackbar(`Nova tarefa adicionada #${product.id}`)
+        this.appStore.showSnackbar(`Novo produto adicionado! #${product.id}`)
         this.getProducts()
         this.loading = false
       })
     },
-    updateProduct(obj) {
+    updateProduct(product) {
       this.loading = true
-      console.log(obj)
-      debugger
-      API.updateProduct(obj).then((obj) => {
-        this.appStore.showSnackbar(`Novo produto adicionado! #${obj.id}`)
+      API.updateProduct(product).then((product) => {
+        this.appStore.showSnackbar(`O produto ${product.name} foi editado!`)
         this.getProducts()
         this.loading = false
       })
@@ -73,6 +72,18 @@ export default {
         this.getProducts()
         this.loading = false
       });
+    },
+    useProduct(item){
+      //TODO se for 0, levantar um erro
+      if (item.real_quantity > 0){
+        API.useProduct(item).then(()=>{
+          this.appStore.showSnackbar('Produto consumido!')
+          this.getProducts()
+        })
+      }
+      else{
+        this.appStore.showSnackbar('Esse produto já está zerado!')
+      }
     }
   },
 }

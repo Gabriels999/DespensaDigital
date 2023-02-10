@@ -30,7 +30,7 @@ def edit_product(request, id):
 @ajax_login_required
 def delete_product(request, id):
     products = product_svc.delete_product(id)
-    return JsonResponse({"products":products})
+    return JsonResponse({"products": products})
 
 
 @csrf_exempt
