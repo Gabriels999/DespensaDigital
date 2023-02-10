@@ -38,3 +38,9 @@ def delete_product(request, id):
 def use_product(request, id):
     product = product_svc.use_product(id)
     return JsonResponse(product)
+
+
+@ajax_login_required
+def shopping_list(request):
+    products = product_svc.shopping_list()
+    return JsonResponse({'products': products})

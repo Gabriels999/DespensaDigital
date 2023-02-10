@@ -21,14 +21,14 @@ maionese = {
 
 
 def test_criar_produto_sem_login(client):
-    resp = client.post('/api/add_product', ketchup)
+    resp = client.post('/api/products/add_product', ketchup)
     assert resp.status_code == 401
 
 
 def test_criar_produto_com_login(client, db):
     user_jon()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/add_product', ketchup)
+    resp = client.post('/api/products/add_product', ketchup)
     data = resp.json()
     assert resp.status_code == 200
     assert data == {
@@ -42,7 +42,7 @@ def test_criar_produto_com_login(client, db):
 
 
 def test_lista_produtos_sem_login(client, db):
-    resp = client.get('/api/list_products')
+    resp = client.get('/api/products/list_products')
     assert resp.status_code == 401
 
 
@@ -51,13 +51,13 @@ def test_lista_produtos_com_login(client, db):
     fixtures.product_ketchup()
 
     client.force_login(User.objects.get(username='jon'))
-    resp = client.get('/api/list_products')
+    resp = client.get('/api/products/list_products')
     data = resp.json()
 
     assert resp.status_code == 200
     assert data == {
         'products': [
-            {   
+            {
                 'id': 1,
                 'name': 'Ketchup',
                 'price': 14.9,
@@ -70,7 +70,7 @@ def test_lista_produtos_com_login(client, db):
 
 
 def test_edita_produto_sem_login(client, db):
-    resp = client.post('/api/edit_product/2')
+    resp = client.post('/api/products/edit_product/2')
     assert resp.status_code == 401
 
 
@@ -78,9 +78,9 @@ def test_edita_produto_com_login(client, db):
     user_jon()
     fixtures.product_ketchup()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/edit_product/1', ketchup)
+    resp = client.post('/api/products/edit_product/1', ketchup)
     data = resp.json()
-    
+
     assert resp.status_code == 200
     assert data == {
         'id': ketchup['id'],
@@ -90,21 +90,21 @@ def test_edita_produto_com_login(client, db):
         'real_quantity': ketchup['real_quantity'],
         'type': ketchup['type'],
     }
-    
+
 
 def test_delete_product(client, db):
     user_jon()
     fixtures.product_ketchup()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/delete_product/1')
+    resp = client.post('/api/products/delete_product/1')
     data = resp.json()
 
     assert resp.status_code == 200
     assert data == {'products': []}
-    
+
 
 def test_usar_produto_sem_login(client, db):
-    resp = client.post('/api/use_product/1')
+    resp = client.post('/api/products/use_product/1')
     assert resp.status_code == 401
 
 
@@ -112,7 +112,7 @@ def test_usar_produto_com_login(client, db):
     user_jon()
     fixtures.product_maionese()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/use_product/2')
+    resp = client.post('/api/products/use_product/2')
     data = resp.json()
 
     assert resp.status_code == 200
@@ -130,7 +130,7 @@ def test_usar_produto_sem_estoque(client, db):
     user_jon()
     fixtures.product_ketchup()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/use_product/1')
+    resp = client.post('/api/products/use_product/1')
     data = resp.json()
 
     assert resp.status_code == 200
@@ -142,3 +142,17 @@ def test_usar_produto_sem_estoque(client, db):
         "target_quantity": 1,
         "real_quantity": 0,
     }
+
+
+def test_gerar_lista_de_compra(client, db):
+    user_jon()
+    fixtures.product_ketchup()
+    fixtures.product_maionese()
+    fixtures.product_mostarda()
+    client.force_login(User.objects.get(username='jon'))
+    resp = client.get('/api/products/shopping_list')
+    data = resp.json()
+    print(data)
+
+    assert resp.status_code == 200
+    assert len(data['products']) == 2

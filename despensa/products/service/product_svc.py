@@ -1,4 +1,6 @@
 from ..models import Product
+from django.db.models import F
+
 
 def list_products():
     products = Product.objects.all()
@@ -15,6 +17,7 @@ def add_product(new_product):
         )
     product.save()
     return product.to_dict_json()
+
 
 def edit_product(new_version_product, id):
     Product.objects.filter(id=id).update(
@@ -41,3 +44,8 @@ def use_product(id):
         product.real_quantity -= 1
         product.save()
     return product.to_dict_json()
+
+
+def shopping_list():
+    products = Product.objects.filter(real_quantity__lt=F('target_quantity'))
+    return [product.to_dict_json() for product in products]
