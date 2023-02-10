@@ -1,93 +1,93 @@
-# d-jà vue
+# 1. Dev-env, super-easy mode (docker all things)
 
-Being a web-developer for 18 years, I have found that by doing things in a certain way, there will be a higher chance that:
+Requirements:
+- [Install docker](https://docs.docker.com/install/)
+- Learn [Python](https://docs.python.org/3/tutorial/) and [Django](https://docs.djangoproject.com/en/2.0/intro/tutorial01/)
+- Learn [vue.js](vuejs.org)
+- Learn [Nuxt.js](https://nuxtjs.org/)
+- Get familiar with [Vuetify.js](vuetifyjs.com/) components
 
-- I and other team members will be more productive
-- clients will be happier
-- the final product will have higher quality and be easier to change
-
-This is a vue-cli template for a **full-stack**, **production-ready** web application using Django and Vue.js.
-
-It helps me (and it may help you) start new projects that already have a useful set of good practices built into them.
-
-### Você fala português?
-
-Veja o video explicando mais sobre este template ;) --> https://youtu.be/It8Zx0cJYyg
-
-Vc tb pode comprar o curso completo\* sobre o djavue e aprender uma PORRADA de coisa sobre desenvolvimento web --> https://evolutio.io/curso/djavue
-
-\* O curso do djavue está em construção. Comprando agora vc paga mais barato e continua tendo acesso ao conteúdo que ainda vai ser produzido ;-)
-
-### Usage
-
-This is a project template for [vue-cli](https://github.com/vuejs/vue-cli).
+Step by step
 
 ```bash
-$ npm install -g @vue/cli
-$ # vue init evolutio/djavue myproject
-$ vue init huogerac/djavue mytodolist
-$ cd mytodolist
-$ docker-compose build
-$ docker-compose up -d
-$ docker-compose exec django_api ./manage.py loaddata docker/fixtures/todolist.json
-$ docker-compose logs -f django_api
+source dev.sh  # import useful bash functions
+devhelp  # like this one ;)
+dkbuild  # builds the docker image for this project. The first time Will take a while.
+dknpminstall  # I'll explain later!
+dkup  # Brings up everything
 ```
 
-🚀 Access the `http://localhost`, `http://localhost/api` or `http://localhost/admin`
+With `dkup` running, open another terminal
 
-For more setup information, follow the README.md that was generated inside your `myproject` folder (which looks a lot like [this one](template/README.md))
+```bash
+dk bash  # starts bash inside "despensa" container
+./manage.py migrate  # create database tables and stuff
+./manage.py createsuperuser  # creates an application user in the database
+```
 
-### What's Included
+What is happenning:
 
-- docker-based development environment. Get started with minimum effort
-- Executable help. `dev.sh` remembers all the important commands, so you don't have to.
-- Django + Postgres in the backend.
-- Vue + Nuxt based frontend (detached from the backend)
-- [Vuetify.js](https://vuetifyjs.com/en/getting-started/quick-start) components
-- Authentication works
-- A working TODO-list that saves TODO items to a database
-- Backend-less development mode, using [mock-apis](https://medium.com/@tonylampada/javascript-mock-api-why-you-might-want-to-have-one-232b3ba46b12)
+* `dev.sh` is a collection of useful bash functions for this project's development environment. You're encouraged to look inside and see how that works, and add more as the project progresses.
+* `dknpminstall` will start a docker container and run `npm install` inside to download node dependencies to the `frontend/node_modules` folder. Using docker for this means you don't need to worry about installing (and choosing version for) node/npm.
+* `dkup` uses docker-compose to start 3 containers: postgres, nginx, and despensa.
+* The dockerized postgres saves its state into `docker/dkdata`. You can delete that if you want your dev database to go kaboom.
+* Once `dkup` is running, `dk <command>` will run `<command>` inside the `despensa` container. So `dk bash` will get you "logged in" as root inside that container. Once inside, you need to run Django's `manage.py` commands to initialize the database properly.
+* The despensa container runs 3 services:
+ * django on port 8000
+ * nuxt frontend with real APIs on port 3000
+ * nuxt frontend with mock APIs on port 3001
+* nginx is configured to listen on port 80 and redirect to 8000 (requests going to `/api/*`) or 3000 (everything else).
+* Therefore, when `dkup` is running, you get a fully working dev-environment by pointing your browser to http://localhost, and a frontend-only-mock-api-based environment by pointing your browser to http://localhost:3001. Each one is more useful on different situations.
+* You're supposed to create features first by implementing them on 3001, then validate them, and only then write the backend APIs and integrate them. Experience shows this process is very productive.
 
-![screenshot](http://image.ibb.co/f0ekjc/image.png)
+# 2. Dev-env, normal-easy mode (dockerize nginx + postgres)
 
-### Contributing
+Running everything inside docker is a quick and easy way to get started, but sometimes we need to run things "for real", for example, when you need to debug python code.
 
-This template is very new in early stage and there is much room for improvement.
-If you'd like to improve it somehow, I'd love to hear about it :-)
+## Python setup
 
-### What are the good practices (or, how I like to do things):
+Requirements:
+ - Understand about python [virtualenvs](https://docs.python.org/3/tutorial/venv.html)
+ - Install [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) (not required, but recommended)
 
-#### 1. Start by building a backend-less frontend
+Step by step
 
-Software building is tricky, because it's too easy to end up creating the wrong software. To avoid that we need constant feedback about our partial progress. By using [mock-apis](https://medium.com/@tonylampada/javascript-mock-api-why-you-might-want-to-have-one-232b3ba46b12), we can deliver a "fake" piece of our application into the clients hands that looks and feels like the real thing. We know we'll make mistakes. Let us make them cheaply.
+```bash
+dkpgnginx  # Starts postgres and nginx inside docker
+```
 
-Mock apis go into `frontend/components/api/apimock.js` - just follow the patterns in there.
-This is also a good time to write the equivalent AJAX calls inside `api.js` (to URLs that don't exist in the backend yet)
+With `dkpgnginx` running, start another terminal:
 
-#### 2. Start with the output
+```bash
+mkvirtualenv despensa -p python3  # creates a python3 virtualenv
+pip install -r requirements.txt  # install python dependencies inside virtualenv
+export DJANGO_DB_PORT=5431  # That's where our dockerized postgres is listening
+./manage.py runserver  # starts django on port 8000
+```
 
-It's likely that the software you need to build will require input from the user, and give output to the user.
-When we act in the world, we see **tools** and **obstacles**.
-Your software will be a **tool** when the user gets valuable output from it.
-And it will be an **obstacle** when the user has to input info to get the value that they want.
+Since nginx is also running you go ahead and point your browser to http://localhost/admin and you should see the same thing as in http://localhost:8000/admin
 
-Input is cost. Output is value.
+## Node Setup
 
-You should start by creating the fake screens (mockapi-based) for the output (value) part of your software. Validate that with the client. The result of that process will give you useful information that will orient the design of the next parts of your software, the input (cost).
+Requirements:
 
-#### 3. Deploy early, deploy often
+* Install [nvm](https://github.com/creationix/nvm) (not required, but highly recommended)
 
-I like to setup my projects with two online live test-environments that will be deployed with every commit
+Step by step:
 
-- **fronttest**: runs the application using the mockapis
-- **test**: runs the funn application
+```bash
+nvm use 9  # Switch your terminal for node version 9.x
+# no need to npm install anything, we already have our node_modules folder
+sudo chmod -R o+rw .nuxt/  # I'll explain this later
+npm run dev  # Starts nuxt frontend on port 3000
+```
 
-During the early stages of development, having the client validate things in the **fronttest** environment speeds up the feedback loop. A LOT.
+You can go ahed and point your browser to http://localhost:3000 to see nuxt running **with mocked apis**
 
-This project will come with a `.gitlab-ci.yml` file. If you host your code in a private Gitlab instance, this should make it easier for you to deploy to "fronttest" and "test" to AWS by using [Gitlab continuous integration and deploy](https://about.gitlab.com/features/gitlab-ci-cd/)
+To run nuxt using real APIs just turn set this environment variable API_MOCK=0
 
-#### 4. TDD is the fastest way
+```bash
+API_MOCK=0 npm run dev  # Starts nuxt frontend on port 3000
+```
 
-When you have a mockapi, that code is not just junk that you don't need. On the contrary. It contains a **valuable, unambiguous specification of how your backend must behave**. At that point, the fastest way to build your backend is to look at your mock apis as an orienting guide for test cases.
-
-Look at mock apis --> write tests --> implement the backend --> repeat
+Since nginx is also running you go ahead and point your browser to http://localhost/ and you should have a fully integrated frontend+backend dev env.

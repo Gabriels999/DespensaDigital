@@ -5,7 +5,11 @@ dkdata
 coverage.xml
 htmlcov/
 .idea
-/despensa-digital.log
+/despensa.log
+/static
+
+/apimock/node_modules
+
 .env
 .vscode/
 .eslintcache

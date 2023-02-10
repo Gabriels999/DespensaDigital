@@ -1,4 +1,4 @@
-name: despensa-digital CI
+name: despensa CI
 
 on:
   push:
