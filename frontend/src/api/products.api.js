@@ -62,6 +62,18 @@ export default {
         });
     });
   },
+  shopProduct: (id) => {
+    return new Promise((resolve, reject) => {
+      api
+      .post(`/api/products/shop_product/${id}`, apiHelpers.dataToForm({id}))
+      .then((response) => {
+        return resolve(response.data);
+      })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+  },
   getShoppingList: () => {
     return new Promise((resolve, reject) => {
       api

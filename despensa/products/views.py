@@ -44,3 +44,10 @@ def use_product(request, id):
 def shopping_list(request):
     products = product_svc.shopping_list()
     return JsonResponse({'products': products})
+
+
+@csrf_exempt
+@ajax_login_required
+def shop_product(request, id):
+    product = product_svc.shop_product(id)
+    return JsonResponse(product)

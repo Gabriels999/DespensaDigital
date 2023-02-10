@@ -9,11 +9,12 @@
       <PopupShoppingList/>
       <PopupCreateProducts @createProduct="createProduct"/>
       <v-col v-for="item in productsList" :key="item.id" cols="12">
-        <product 
+        <product
         :product="item" 
         @delProduct="deleteProduct" 
         @upProduct="updateProduct"
         @useProduct="useProduct"
+        @shopProduct="shopProduct"
         />
       </v-col>
     </v-row>
@@ -77,9 +78,8 @@ export default {
       });
     },
     useProduct(item){
-      //TODO se for 0, levantar um erro
       if (item.real_quantity > 0){
-        API.useProduct(item).then(()=>{
+        API.useProduct(item.id).then(()=>{
           this.appStore.showSnackbar('Produto consumido!')
           this.getProducts()
         })
@@ -87,8 +87,14 @@ export default {
       else{
         this.appStore.showSnackbar('Esse produto já está zerado!')
       }
+    },
+    shopProduct(id){
+        API.shopProduct(id).then(()=>{
+          this.appStore.showSnackbar('Produto abastecido!')
+          this.getProducts()
+        })
+      }
     }
-  },
 }
 </script>
 

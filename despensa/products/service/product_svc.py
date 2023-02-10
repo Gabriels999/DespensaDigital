@@ -49,3 +49,10 @@ def use_product(id):
 def shopping_list():
     products = Product.objects.filter(real_quantity__lt=F('target_quantity'))
     return [product.to_dict_json() for product in products]
+
+
+def shop_product(id):
+    product = Product.objects.get(id=id)
+    product.real_quantity += 1
+    product.save()
+    return product.to_dict_json()

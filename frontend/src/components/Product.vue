@@ -1,35 +1,29 @@
 <template>
-  <v-card>
+  <v-card class="mx-auto" max-width="400">
+    <v-card-title>{{ product.name }}</v-card-title>
+    <v-card-subtitle class="pt-4">
+      #{{ product.id }}
+    </v-card-subtitle>
     <v-card-text>
-      <div>#{{ product.id }}</div>
-    <p class="ma-0 pa-0 text-h5 text--primary">
-      {{ product.name }}
-    </p>
-    <p class="ma-0 pa-0 text-h5 text--primary">
-      {{ product.type }}
-    </p>
-    <p class="ma-0 pa-0 text-h5 text--primary">
-      {{ product.price }}
-    </p>
-    <p class="ma-0 pa-0 text-h5 text--primary">
-      {{ product.target_quantity }}
-    </p>
-    <p class="ma-0 pa-0 text-h5 text--primary">
-      {{ product.real_quantity }}
-    </p>
+      <div>
+        Tipo: {{ product.type }}
+        Preco: {{ product.price }}
+      </div>
+      <div>Ideal: {{ product.target_quantity }}</div>
+      <div>Em estoque: {{ product.real_quantity }}</div>
     </v-card-text>
-    <v-col cols="6">
-      <PopupEditProducts 
-      :product="product" 
-      @updateProduct="updateProduct"
-      />
-      <v-btn :loading="loading" class="ma-1" color="error" plain @click="deleteProduct(product)">
-        Delete
-      </v-btn>
+    <v-card-actions>
+      <PopupEditProducts :product="product" @updateProduct="updateProduct" />
       <v-btn class="ma-1" color="light-blue-lighten-2" plain @click="useProduct(product)">
-        Use Product
+        Usei
       </v-btn>
-    </v-col>
+      <v-btn class="ma-1" color="success" @click="shopProduct(product)" plain>
+        Abasteci
+      </v-btn>
+      <v-btn :loading="loading" class="d-flex flex-row-reverse" icon="mdi-close-circle" color="error"
+        @click="deleteProduct(product)">
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -39,7 +33,7 @@ import PopupEditProducts from "@/components/PopupEditProducts.vue";
 
 export default {
   name: "ProductModel",
-  emits: ['delProduct', 'upProduct', 'useProduct'],
+  emits: ['delProduct', 'upProduct', 'useProduct', 'shopProduct'],
   components: { PopupEditProducts },
   props: {
     product: {
@@ -61,6 +55,9 @@ export default {
     },
     useProduct(item){
       this.$emit('useProduct', item)
+    },
+    shopProduct(item){
+      this.$emit('shopProduct', item.id)
     }
   },
 }
