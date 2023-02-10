@@ -9,10 +9,14 @@
             <v-card>
                 <v-card-title>Shopping List</v-card-title>
                 <v-divider></v-divider>
-                {{ shoppingList }}
-                <v-card-text style="height: 300px;">
-                </v-card-text>
-                <v-divider></v-divider>
+                <div v-for="item in shoppingList" :key="item.id">
+                    <v-card-text>
+                        <p>{{ item.name }}</p>
+                        <p>Precisa comprar: {{ item.target_quantity - item.real_quantity }}</p>
+                        <p>Ultimo preco: {{ item.price }}</p>
+                        <p>Tipo: {{ item.type }}</p>
+                    </v-card-text>
+                </div>
                 <v-card-actions>
                     <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
                         Close
@@ -32,7 +36,6 @@ export default {
     props: {
         shoppingList: {
             type: Object,
-            default: null,
         },
     },
     data() {

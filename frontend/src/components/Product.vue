@@ -6,11 +6,13 @@
     </v-card-subtitle>
     <v-card-text>
       <div>
-        Tipo: {{ product.type }}
         Preco: {{ product.price }}
       </div>
       <div>Ideal: {{ product.target_quantity }}</div>
       <div>Em estoque: {{ product.real_quantity }}</div>
+      <div>
+        Tipo: {{ product.type }}
+      </div>
     </v-card-text>
     <v-card-actions>
       <PopupEditProducts :product="product" @updateProduct="updateProduct" />
