@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
+from ...accounts.tests.fixtures import user_jon
 from . import fixtures
 
-ketchup ={
+ketchup = {
         "id": 1,
         "name": 'Ketchup',
         "price": 14.9,
@@ -9,7 +10,7 @@ ketchup ={
         "real_quantity": 0,
         "type": 'Secos',
   }
-maionese ={
+maionese = {
         "id": 2,
         "name": 'Maionese',
         "price": 14.9,
@@ -18,13 +19,14 @@ maionese ={
         "type": 'Secos',
   }
 
+
 def test_criar_produto_sem_login(client):
     resp = client.post('/api/add_product', ketchup)
     assert resp.status_code == 401
 
 
 def test_criar_produto_com_login(client, db):
-    fixtures.user_jon()
+    user_jon()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/add_product', ketchup)
     data = resp.json()
@@ -45,7 +47,7 @@ def test_lista_produtos_sem_login(client, db):
 
 
 def test_lista_produtos_com_login(client, db):
-    fixtures.user_jon()
+    user_jon()
     fixtures.product_ketchup()
 
     client.force_login(User.objects.get(username='jon'))
@@ -73,7 +75,7 @@ def test_edita_produto_sem_login(client, db):
 
 
 def test_edita_produto_com_login(client, db):
-    fixtures.user_jon()
+    user_jon()
     fixtures.product_ketchup()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/edit_product/1', ketchup)
@@ -91,7 +93,7 @@ def test_edita_produto_com_login(client, db):
     
 
 def test_delete_product(client, db):
-    fixtures.user_jon()
+    user_jon()
     fixtures.product_ketchup()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/delete_product/1')
@@ -107,7 +109,7 @@ def test_usar_produto_sem_login(client, db):
 
 
 def test_usar_produto_com_login(client, db):
-    fixtures.user_jon()
+    user_jon()
     fixtures.product_maionese()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/use_product/2')
@@ -125,7 +127,7 @@ def test_usar_produto_com_login(client, db):
 
 
 def test_usar_produto_sem_estoque(client, db):
-    fixtures.user_jon()
+    user_jon()
     fixtures.product_ketchup()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/use_product/1')
