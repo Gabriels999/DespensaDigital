@@ -2,6 +2,8 @@
 
 <img src='./frontend/src/assets/despensa.gif'/>
 
+[Vídeo](https://www.youtube.com/watch?v=InxqQUSpFvE&ab_channel=GabrielSantos) de apresentação.
+
 ### O que é ?
 A Despensa Digital é uma aplicação web que se apoia no template Djavue, e portanto tem backend em **Django** e frontend em **Vue 3** que tem a missão de resolver uma dor que eu tenho no meu cotidiano: facilitar fazer a lista de compras da minha casa!
 Isso porque a minha memória não é das melhores e frequentemente eu esqueço de comprar o que acabou no início do mês, porque preciso notar a ausência. Dado essa situação pensei em criar uma aplicação web que resolva meu problema da seguinte forma:
