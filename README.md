@@ -26,6 +26,9 @@ A aplicação estará disponível na sua máquina da seguinte forma:
 - Backend rodando em `localhost:8000`. Entrando nessa rota, é possível começar a ver os endpoints disponíveis no projeto;
     - Já te adianto que o que é referente aos produtos está em `localhost:8000/api/products`, beleza ?
 
+Caso queira rodar com `APIMOCK` (backendless) rode o seguinte comando:
+- `docker compose -f docker-compose.yml -f docker-compose.apimock.yml up frontend`
+
 #### Créditos
 
 - Template Original [Djavue](https://github.com/evolutio/djavue): [Tony Lâmpada](https://github.com/tonylampada)
