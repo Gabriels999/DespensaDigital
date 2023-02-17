@@ -1,5 +1,5 @@
 from django.db import models
-from ..accounts.models import User
+from ..accounts.models import User, Profile
 
 
 class ActivityLog(models.Model):
@@ -57,3 +57,19 @@ class Product(models.Model):
             return False
         return True
 
+
+class DespensaUsuario(models.Model):
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['owner']
+
+    def __str__(self):
+        return f"{self.owner} | {self.product}"
+
+    def to_dict_json(self):
+        return {
+            'owner': self.owner,
+            'product': self.product,
+        }

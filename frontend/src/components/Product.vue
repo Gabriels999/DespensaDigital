@@ -1,8 +1,11 @@
 <template>
   <v-card class="mx-auto" max-width="400">
     <v-card-title>{{ product.name }}</v-card-title>
-    <v-card-subtitle class="pt-4">
+    <v-card-subtitle class="pt-4 d-flex justify-space-between">
       #{{ product.id }}
+      <v-chip label class="">
+        {{ product.type }}
+      </v-chip>
     </v-card-subtitle>
     <v-card-text>
       <div>
@@ -10,9 +13,6 @@
       </div>
       <div>Ideal: {{ product.target_quantity }}</div>
       <div>Em estoque: {{ product.real_quantity }}</div>
-      <div>
-        Tipo: {{ product.type }}
-      </div>
     </v-card-text>
     <v-card-actions>
       <PopupEditProducts :product="product" @updateProduct="updateProduct" />
