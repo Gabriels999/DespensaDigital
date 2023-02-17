@@ -8,7 +8,9 @@
       </v-col>
       <PopupShoppingList/>
       <PopupCreateProducts @createProduct="createProduct"/>
-      <v-col v-for="item in productsList" :key="item.id" cols="12">
+    </v-row>
+    <v-row>
+      <v-card class="d-flex mx-4" v-for="item in productsList" :key="item.id">
         <product
         :product="item" 
         @delProduct="deleteProduct" 
@@ -16,7 +18,7 @@
         @useProduct="useProduct"
         @shopProduct="shopProduct"
         />
-      </v-col>
+      </v-card>
     </v-row>
   </v-container>
 </template>
@@ -99,7 +101,4 @@ export default {
 </script>
 
 <style scoped>
-.done {
-  text-decoration: line-through;
-}
 </style>
