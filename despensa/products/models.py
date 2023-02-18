@@ -72,8 +72,16 @@ class UserStore(models.Model):
 
     def to_dict_json(self):
         return {
-            'owner_id': self.owner.id,
-            'owner_name': self.owner.user.username,
-            'product_id': self.product.id,
-            'product': self.product.name,
+            'owner': {
+                'owner_id': self.owner.id,
+                'owner_name': self.owner.user.username,
+            },
+            "product": {
+                'id': self.product.id,
+                'name': self.product.name,
+                'price': self.product.price,
+                'target_quantity': self.product.target_quantity,
+                'real_quantity': self.product.real_quantity,
+                'type': self.product.type,
+            }
         }

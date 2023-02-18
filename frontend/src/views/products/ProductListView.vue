@@ -12,8 +12,8 @@
     <v-row>
       <v-card class="d-flex mx-4" v-for="item in productsList" :key="item.id">
         <product
-        :product="item" 
-        @delProduct="deleteProduct" 
+        :product="item.product"
+        @delProduct="deleteProduct"
         @upProduct="updateProduct"
         @useProduct="useProduct"
         @shopProduct="shopProduct"
