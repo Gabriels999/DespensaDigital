@@ -1,10 +1,22 @@
-from ..models import Product
+from ..models import Product, UserStore
 from django.db.models import F
 
 
-def list_products():
-    products = Product.objects.all()
+def list_products(id):
+    products = UserStore.objects.filter(id=id)
     return [product.to_dict_json() for product in products]
+
+
+def register_product(new_product):
+    product = Product(
+            name=new_product['name'],
+            price=float(new_product['price']),
+            type=new_product['type'],
+            target_quantity=int(new_product['target_quantity']),
+            real_quantity=int(new_product['real_quantity'])
+        )
+    product.save()
+    return product.to_dict_json()
 
 
 def add_product(new_product):

@@ -5,7 +5,9 @@ from ..accounts.models import User, Profile
 class ActivityLog(models.Model):
     type = models.CharField(max_length=64)
     logged_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    fromuser = models.ForeignKey(User, null=True, blank=True, related_name="activitylogs_withfromuser", on_delete=models.CASCADE)
+    fromuser = models.ForeignKey(
+        User, null=True, blank=True, related_name="activitylogs_withfromuser", on_delete=models.CASCADE
+        )
     jsondata = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
 
@@ -58,7 +60,7 @@ class Product(models.Model):
         return True
 
 
-class DespensaUsuario(models.Model):
+class UserStore(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
