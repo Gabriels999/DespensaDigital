@@ -14,7 +14,7 @@ export default {
         });
     });
   },
-  createProduct: (product) => {
+  createProduct: (product, userId) => {
     return new Promise((resolve, reject) => {
       api
         .post("/api/products/add_product", apiHelpers.dataToForm(product))

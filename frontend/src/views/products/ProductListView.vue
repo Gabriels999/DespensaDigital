@@ -25,6 +25,7 @@
 
 <script>
 import { useAppStore } from "@/stores/appStore"
+import { useAccountsStore } from "@/stores/accountsStore"
 import API from "@/api/products.api.js"
 import Product from "@/components/Product.vue"
 import PopupCreateProducts from "@/components/PopupCreateProducts.vue";
@@ -36,12 +37,14 @@ export default {
     Product, PopupCreateProducts, PopupShoppingList },
   setup() {
     const appStore = useAppStore()
-    return { appStore }
+    const userStore = useAccountsStore()
+    return { appStore, userStore }
   },
   data() {
     return {
       loading: false,
       productsList: [],
+      user: this.userStore.loggedUser
     }
   },
   mounted() {
@@ -57,7 +60,7 @@ export default {
     },
     createProduct(product) {
       this.loading = true
-      API.createProduct(product).then((product) => {
+      API.createProduct(product, this.user.id).then((product) => {
         this.appStore.showSnackbar(`Novo produto adicionado! #${product.id}`)
         this.getProducts()
         this.loading = false
