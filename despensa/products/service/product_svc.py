@@ -1,3 +1,4 @@
+from ...accounts.models import Profile
 from ..models import Product, UserStore
 from django.db.models import F
 
@@ -7,7 +8,7 @@ def list_products(id):
     return [product.to_dict_json() for product in products]
 
 
-def register_product(new_product):
+def register_product(new_product, userId):
     product = Product(
             name=new_product['name'],
             price=float(new_product['price']),
@@ -16,6 +17,12 @@ def register_product(new_product):
             real_quantity=int(new_product['real_quantity'])
         )
     product.save()
+    logged_user = Profile.objects.get(id=userId)
+    product_user_store = UserStore(
+        owner=logged_user,
+        product=product
+    )
+    product_user_store.save()
     return product.to_dict_json()
 
 

@@ -14,10 +14,10 @@ export default {
         });
     });
   },
-  createProduct: (product, userId) => {
+  createProduct: (product) => {
     return new Promise((resolve, reject) => {
       api
-        .post("/api/products/add_product", apiHelpers.dataToForm(product))
+        .post("/api/products/register_product", apiHelpers.dataToForm(product))
         .then((response) => {
           return resolve(response.data);
         })

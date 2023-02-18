@@ -60,7 +60,7 @@ export default {
     },
     createProduct(product) {
       this.loading = true
-      API.createProduct(product, this.user.id).then((product) => {
+      API.createProduct(product).then((product) => {
         this.appStore.showSnackbar(`Novo produto adicionado! #${product.id}`)
         this.getProducts()
         this.loading = false

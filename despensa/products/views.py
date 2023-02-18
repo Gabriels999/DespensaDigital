@@ -9,7 +9,7 @@ from .service import product_svc
 @csrf_exempt
 @ajax_login_required
 def register_product(request):
-    product = product_svc.register_product(request.POST)
+    product = product_svc.register_product(request.POST, request.user.id)
     return JsonResponse(product)
 
 
