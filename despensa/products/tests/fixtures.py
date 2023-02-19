@@ -9,8 +9,6 @@ def product_ketchup():
         name="Ketchup",
         type="Secos",
         price=14.9,
-        target_quantity=1,
-        real_quantity=0,
     )
     return ketchup
 
@@ -21,8 +19,6 @@ def product_maionese():
         name="Maionese",
         type="Secos",
         price=14.9,
-        target_quantity=2,
-        real_quantity=1,
     )
     return maionese
 
@@ -33,8 +29,6 @@ def product_mostarda():
         name="Mostarda",
         type="Secos",
         price=17.9,
-        target_quantity=2,
-        real_quantity=2,
     )
     return mostarda
 
@@ -44,6 +38,8 @@ def jon_ketchup():
     product = product_ketchup()
     ketchup_registrado = UserStore.objects.create(
         owner=Profile.objects.get(user__username='jon'),
-        product=product
+        product=product,
+        target_quantity=1,
+        real_quantity=0,
     )
     return ketchup_registrado
