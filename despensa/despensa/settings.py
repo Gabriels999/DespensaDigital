@@ -49,7 +49,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    # 'explorer',
+    "django_extensions"
 ]
 
 LOCAL_APPS = [
