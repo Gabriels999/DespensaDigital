@@ -8,22 +8,17 @@ def list_products(id):
     return [product.to_dict_json() for product in products]
 
 
-def add_product(new_product, userId):
-    product = Product(
-            name=new_product['name'],
-            price=float(new_product['price']),
-            type=new_product['type'],
-            target_quantity=int(new_product['target_quantity']),
-            real_quantity=int(new_product['real_quantity'])
-        )
-    product.save()
+def add_product_to_UserStore(new_product, userId):
+    product = Product.objects.get(id=new_product['id'])
     logged_user = Profile.objects.get(user__id=userId)
     product_user_store = UserStore(
         owner=logged_user,
-        product=product
+        product=product,
+        target_quantity=int(new_product['target_quantity']),
+        real_quantity=int(new_product['real_quantity'])
     )
     product_user_store.save()
-    return product.to_dict_json()
+    return product_user_store.to_dict_json()
 
 
 def register_product(new_product):

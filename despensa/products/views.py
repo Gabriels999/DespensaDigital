@@ -8,8 +8,8 @@ from .service import product_svc
 
 @csrf_exempt
 @ajax_login_required
-def add_product(request):
-    product = product_svc.add_product(request.POST, request.user.id)
+def add_product_to_UserStore(request):
+    product = product_svc.add_product_to_UserStore(request.POST, request.user.id)
     return JsonResponse(product)
 
 

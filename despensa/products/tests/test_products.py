@@ -1,12 +1,17 @@
 from django.contrib.auth.models import User
-from ...accounts.tests.fixtures import user_jon
+from ...accounts.tests.fixtures import user_jon, profile_jon
 from . import fixtures
 
-ketchup = {
+register_ketchup = {
         "id": 1,
         "name": 'Ketchup',
         "price": 14.9,
         "type": 'Secos',
+  }
+ketchup_userStore = {
+        "id": 1,
+        "target_quantity": 1,
+        "real_quantity": 0
   }
 maionese = {
         "id": 2,
@@ -17,14 +22,14 @@ maionese = {
 
 
 def test_criar_produto_sem_login(client):
-    resp = client.post('/api/products/add_product', ketchup)
+    resp = client.post('/api/products/register_product', register_ketchup)
     assert resp.status_code == 401
 
 
 def test_criar_produto_com_login(client, db):
     user_jon()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/products/register_product', ketchup)
+    resp = client.post('/api/products/register_product', register_ketchup)
     data = resp.json()
     assert resp.status_code == 200
     assert data == {
@@ -33,6 +38,34 @@ def test_criar_produto_com_login(client, db):
         'price': 14.9,
         'type': 'Secos',
     }
+
+
+def test_adicionar_produto_na_despensa_sem_login(client, db):
+    resp = client.post('/api/products/add_product')
+    assert resp.status_code == 401
+
+
+def test_adicionar_produto_na_despensa_com_login(client, db):
+    profile_jon()
+    fixtures.product_ketchup()
+    client.force_login(User.objects.get(username='jon'))
+    resp = client.post('/api/products/add_product', ketchup_userStore)
+    data = resp.json()
+    assert resp.status_code == 200
+    assert data == {
+        'owner': {
+            'owner_id': 1,
+            'owner_name': 'jon'
+            },
+        'product': {
+            'id': 1,
+            'name': 'Ketchup',
+            'price': 14.9,
+            'target_quantity': 1,
+            'real_quantity': 0,
+            'type': 'Secos'
+            }
+        }
 
 
 def test_lista_produtos_sem_login(client, db):
@@ -46,13 +79,12 @@ def test_lista_produtos_com_login(client, db):
     client.force_login(User.objects.get(username='jon'))
     resp = client.get('/api/products/list_products')
     data = resp.json()
-    print(data)
     assert resp.status_code == 200
     assert data == {
         'products': [
             {
                 'owner': {
-                    'owner_id': 1,
+                    'owner_id': 2,
                     'owner_name': 'jon'
                 },
                 'product': {
@@ -75,7 +107,7 @@ def test_edita_produto_sem_login(client, db):
 
 def test_edita_produto_com_login(client, db):
     user_jon()
-    fixtures.product_ketchup()
+    fixtures.jon_ketchup()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/products/edit_product/1', ketchup)
     data = resp.json()
