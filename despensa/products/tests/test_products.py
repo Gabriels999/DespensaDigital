@@ -6,16 +6,12 @@ ketchup = {
         "id": 1,
         "name": 'Ketchup',
         "price": 14.9,
-        "target_quantity": 1,
-        "real_quantity": 0,
         "type": 'Secos',
   }
 maionese = {
         "id": 2,
         "name": 'Maionese',
         "price": 14.9,
-        "target_quantity": 2,
-        "real_quantity": 1,
         "type": 'Secos',
   }
 
@@ -28,15 +24,13 @@ def test_criar_produto_sem_login(client):
 def test_criar_produto_com_login(client, db):
     user_jon()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/products/add_product', ketchup)
+    resp = client.post('/api/products/register_product', ketchup)
     data = resp.json()
     assert resp.status_code == 200
     assert data == {
         'id': 1,
         'name': 'Ketchup',
         'price': 14.9,
-        'target_quantity': 1,
-        'real_quantity': 0,
         'type': 'Secos',
     }
 

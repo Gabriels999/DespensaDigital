@@ -8,15 +8,15 @@ from .service import product_svc
 
 @csrf_exempt
 @ajax_login_required
-def register_product(request):
-    product = product_svc.register_product(request.POST, request.user.id)
+def add_product(request):
+    product = product_svc.add_product(request.POST, request.user.id)
     return JsonResponse(product)
 
 
 @csrf_exempt
 @ajax_login_required
-def add_product(request):
-    product = product_svc.add_product(request.POST)
+def register_product(request):
+    product = product_svc.register_product(request.POST)
     return JsonResponse(product)
 
 
