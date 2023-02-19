@@ -25,8 +25,6 @@ class ActivityLog(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=132)
     price = models.FloatField()
-    target_quantity = models.IntegerField()
-    real_quantity = models.IntegerField()
     type_choices = [
         ("CONGELADOS", "Congelados"),
         ("REFRIGERADOS", "Refrigerados"),
@@ -49,20 +47,15 @@ class Product(models.Model):
             'id': self.id,
             'name': self.name,
             'price': self.price,
-            'target_quantity': self.target_quantity,
-            'real_quantity': self.real_quantity,
             'type': self.type,
         }
-
-    def should_buy(self):
-        if self.real_quantity <= self.target_quantity:
-            return False
-        return True
 
 
 class UserStore(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    target_quantity = models.IntegerField()
+    real_quantity = models.IntegerField()
 
     class Meta:
         ordering = ['owner']
@@ -80,8 +73,8 @@ class UserStore(models.Model):
                 'id': self.product.id,
                 'name': self.product.name,
                 'price': self.product.price,
-                'target_quantity': self.product.target_quantity,
-                'real_quantity': self.product.real_quantity,
+                'target_quantity': self.target_quantity,
+                'real_quantity': self.real_quantity,
                 'type': self.product.type,
             }
         }
