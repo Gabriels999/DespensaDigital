@@ -1,4 +1,6 @@
-from ..models import Product
+from ..models import Product, UserStore
+from ...accounts.models import Profile
+from ...accounts.tests.fixtures import profile_jon
 
 
 def product_ketchup():
@@ -35,3 +37,13 @@ def product_mostarda():
         real_quantity=2,
     )
     return mostarda
+
+
+def jon_ketchup():
+    profile_jon()
+    product = product_ketchup()
+    ketchup_registrado = UserStore.objects.create(
+        owner=Profile.objects.get(user__username='jon'),
+        product=product
+    )
+    return ketchup_registrado
