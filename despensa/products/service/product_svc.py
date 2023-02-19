@@ -4,7 +4,7 @@ from django.db.models import F
 
 
 def list_products(id):
-    products = UserStore.objects.filter(id=id)
+    products = UserStore.objects.filter(owner=Profile.objects.get(user__id=id))
     return [product.to_dict_json() for product in products]
 
 

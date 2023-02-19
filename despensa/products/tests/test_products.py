@@ -47,23 +47,28 @@ def test_lista_produtos_sem_login(client, db):
 
 
 def test_lista_produtos_com_login(client, db):
-    user_jon()
-    fixtures.product_ketchup()
+    fixtures.jon_ketchup()
 
     client.force_login(User.objects.get(username='jon'))
     resp = client.get('/api/products/list_products')
     data = resp.json()
-
+    print(data)
     assert resp.status_code == 200
     assert data == {
         'products': [
             {
-                'id': 1,
-                'name': 'Ketchup',
-                'price': 14.9,
-                'real_quantity': 0,
-                'target_quantity': 1,
-                'type': 'Secos',
+                'owner': {
+                    'owner_id': 1,
+                    'owner_name': 'jon'
+                },
+                'product': {
+                    'id': 1,
+                    'name': 'Ketchup',
+                    'price': 14.9,
+                    'target_quantity': 1,
+                    'real_quantity': 0,
+                    'type': 'Secos'
+                }
             }
         ]
     }
