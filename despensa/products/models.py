@@ -68,7 +68,7 @@ class UserStore(models.Model):
         ordering = ['owner']
 
     def __str__(self):
-        return f"{self.owner.username} | {self.product.name}"
+        return f"{self.owner.user.username} | {self.product.name}"
 
     def to_dict_json(self):
         return {
