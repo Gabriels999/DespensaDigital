@@ -43,10 +43,13 @@ def edit_product(new_version_product, user_id):
     return updated_product.to_dict_json()
 
 
-def delete_product(id):
-    product = Product.objects.get(id=id)
-    product.delete()
-    products_list = Product.objects.all()
+def remove_product(user_id, id):
+    product_in_UserStore = UserStore.objects.filter(
+        owner=Profile.objects.get(user__id=user_id),
+        product=Product.objects.get(id=id)
+    )
+    product_in_UserStore.delete()
+    products_list = UserStore.objects.filter(owner=Profile.objects.get(user__id=user_id))
     return [product.to_dict_json() for product in products_list]
 
 

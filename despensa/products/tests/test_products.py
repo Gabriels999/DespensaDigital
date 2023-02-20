@@ -131,11 +131,10 @@ def test_edita_produto_com_login(client, db):
         }
 
 
-def test_delete_product(client, db):
-    user_jon()
-    fixtures.product_ketchup()
+def test_remove_product(client, db):
+    fixtures.jon_ketchup()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/products/delete_product/1')
+    resp = client.post('/api/products/remove_product/1')
     data = resp.json()
 
     assert resp.status_code == 200
