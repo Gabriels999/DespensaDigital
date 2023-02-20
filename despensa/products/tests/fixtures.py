@@ -43,3 +43,15 @@ def jon_ketchup():
         real_quantity=0,
     )
     return ketchup_registrado
+
+
+def jon_maionese():
+    profile_jon()
+    product = product_maionese()
+    maionese_registrada = UserStore.objects.create(
+        owner=Profile.objects.get(user__username='jon'),
+        product=product,
+        target_quantity=3,
+        real_quantity=2,
+    )
+    return maionese_registrada

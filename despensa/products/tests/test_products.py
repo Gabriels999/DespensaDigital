@@ -147,39 +147,47 @@ def test_usar_produto_sem_login(client, db):
 
 
 def test_usar_produto_com_login(client, db):
-    user_jon()
-    fixtures.product_maionese()
+    fixtures.jon_maionese()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/products/use_product/2')
     data = resp.json()
-
     assert resp.status_code == 200
     assert data == {
-        "id": 2,
-        "name": 'Maionese',
-        "type": 'Secos',
-        "price": 14.9,
-        "target_quantity": 2,
-        "real_quantity": 0,
-    }
+        'owner': {
+            'owner_id': 5,
+            'owner_name': 'jon'
+            },
+        'product': {
+            'id': 2,
+            'name': 'Maionese',
+            'price': 14.9,
+            'target_quantity': 3,
+            'real_quantity': 1,
+            'type': 'Secos'
+            }
+        }
 
 
 def test_usar_produto_sem_estoque(client, db):
-    user_jon()
-    fixtures.product_ketchup()
+    fixtures.jon_ketchup()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/products/use_product/1')
     data = resp.json()
-
     assert resp.status_code == 200
     assert data == {
-        "id": 1,
-        "name": 'Ketchup',
-        "type": 'Secos',
-        "price": 14.9,
-        "target_quantity": 1,
-        "real_quantity": 0,
-    }
+        'owner': {
+            'owner_id': 6,
+            'owner_name': 'jon'
+            },
+        'product': {
+            'id': 1,
+            'name': 'Ketchup',
+            'price': 14.9,
+            'target_quantity': 1,
+            'real_quantity': 0,
+            'type': 'Secos'
+            }
+        }
 
 
 def test_gerar_lista_de_compra(client, db):

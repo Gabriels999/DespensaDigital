@@ -53,12 +53,16 @@ def remove_product(user_id, id):
     return [product.to_dict_json() for product in products_list]
 
 
-def use_product(id):
-    product = Product.objects.get(id=id)
-    if product.real_quantity > 0:
-        product.real_quantity -= 1
-        product.save()
-    return product.to_dict_json()
+def use_product(user_id, id):
+    product = UserStore.objects.filter(
+        owner=Profile.objects.get(user__id=user_id),
+        product=Product.objects.get(id=id),
+    )
+    if product.values('real_quantity').first().get('real_quantity') > 0:
+        product.update(
+            real_quantity=F('real_quantity')-1
+        )
+    return product[0].to_dict_json()
 
 
 def shopping_list():

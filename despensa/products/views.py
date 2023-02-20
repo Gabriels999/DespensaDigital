@@ -43,7 +43,7 @@ def remove_product(request, id):
 @csrf_exempt
 @ajax_login_required
 def use_product(request, id):
-    product = product_svc.use_product(id)
+    product = product_svc.use_product(request.user.id, id)
     return JsonResponse(product)
 
 
