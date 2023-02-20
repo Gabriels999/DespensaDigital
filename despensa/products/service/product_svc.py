@@ -65,8 +65,10 @@ def use_product(user_id, id):
     return product[0].to_dict_json()
 
 
-def shopping_list():
-    products = Product.objects.filter(real_quantity__lt=F('target_quantity'))
+def shopping_list(user_id):
+    products = UserStore.objects.filter(
+        owner=Profile.objects.get(user__id=user_id),
+        real_quantity__lt=F('target_quantity'))
     return [product.to_dict_json() for product in products]
 
 

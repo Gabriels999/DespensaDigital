@@ -49,7 +49,7 @@ def use_product(request, id):
 
 @ajax_login_required
 def shopping_list(request):
-    products = product_svc.shopping_list()
+    products = product_svc.shopping_list(request.user.id)
     return JsonResponse({'products': products})
 
 

@@ -191,16 +191,13 @@ def test_usar_produto_sem_estoque(client, db):
 
 
 def test_gerar_lista_de_compra(client, db):
-    user_jon()
-    fixtures.product_ketchup()
-    fixtures.product_maionese()
-    fixtures.product_mostarda()
+    fixtures.jon_ketchup()
     client.force_login(User.objects.get(username='jon'))
     resp = client.get('/api/products/shopping_list')
     data = resp.json()
 
     assert resp.status_code == 200
-    assert len(data['products']) == 2
+    assert len(data['products']) == 1
 
 
 def test_comprar_produto(client, db):
