@@ -56,5 +56,5 @@ def shopping_list(request):
 @csrf_exempt
 @ajax_login_required
 def shop_product(request, id):
-    product = product_svc.shop_product(id)
+    product = product_svc.shop_product(request.user.id, id)
     return JsonResponse(product)

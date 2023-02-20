@@ -72,8 +72,10 @@ def shopping_list(user_id):
     return [product.to_dict_json() for product in products]
 
 
-def shop_product(id):
-    product = Product.objects.get(id=id)
-    product.real_quantity += 1
-    product.save()
-    return product.to_dict_json()
+def shop_product(user_id, id):
+    product = UserStore.objects.filter(
+        owner=Profile.objects.get(user__id=user_id),
+        product=Product.objects.get(id=id)
+        )
+    product.update(real_quantity=F('real_quantity')+1)
+    return product[0].to_dict_json()

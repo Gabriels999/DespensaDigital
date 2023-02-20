@@ -201,18 +201,23 @@ def test_gerar_lista_de_compra(client, db):
 
 
 def test_comprar_produto(client, db):
-    user_jon()
-    fixtures.product_ketchup()
+    fixtures.jon_ketchup()
     client.force_login(User.objects.get(username='jon'))
     resp = client.get('/api/products/shop_product/1')
     data = resp.json()
-
+    print(data)
     assert resp.status_code == 200
     assert data == {
-        "id": 1,
-        "name": "Ketchup",
-        "type": "Secos",
-        "price": 14.9,
-        "target_quantity": 1,
-        "real_quantity": 1,
-    }
+        'owner': {
+            'owner_id': 8,
+            'owner_name': 'jon'
+        },
+        'product': {
+            'id': 1,
+            'name': 'Ketchup',
+            'price': 14.9,
+            'target_quantity': 1,
+            'real_quantity': 1,
+            'type': 'Secos'
+            }
+        }
