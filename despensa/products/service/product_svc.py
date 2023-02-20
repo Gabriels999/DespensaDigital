@@ -1,6 +1,6 @@
 from ...accounts.models import Profile
 from ..models import Product, UserStore
-from django.db.models import F
+from django.db.models import F, Q
 
 
 def list_products(id):
@@ -8,9 +8,9 @@ def list_products(id):
     return [product.to_dict_json() for product in products]
 
 
-def add_product_to_UserStore(new_product, userId):
+def add_product_to_UserStore(new_product, user_id):
     product = Product.objects.get(id=new_product['id'])
-    logged_user = Profile.objects.get(user__id=userId)
+    logged_user = Profile.objects.get(user__id=user_id)
     product_user_store = UserStore(
         owner=logged_user,
         product=product,
@@ -31,16 +31,16 @@ def register_product(new_product):
     return product.to_dict_json()
 
 
-def edit_product(new_version_product, id):
-    Product.objects.filter(id=id).update(
-        name=new_version_product['name'],
-        price=new_version_product['price'],
-        type=new_version_product['type'],
-        target_quantity=new_version_product['target_quantity'],
-        real_quantity=new_version_product['real_quantity'],
+def edit_product(new_version_product, user_id):
+    product_to_update = UserStore.objects.filter(
+        Q(owner=Profile.objects.get(user__id=user_id)),
+        Q(product=Product.objects.get(id=new_version_product.get('id')))
     )
-    new_product = Product.objects.get(id=id)
-    return new_product.to_dict_json()
+    product_to_update.update(
+        target_quantity=int(new_version_product.get('target_quantity'))
+    )
+    updated_product = UserStore.objects.get(product__id=new_version_product.get('id'))
+    return updated_product.to_dict_json()
 
 
 def delete_product(id):

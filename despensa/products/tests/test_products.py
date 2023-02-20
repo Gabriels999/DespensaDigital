@@ -106,21 +106,29 @@ def test_edita_produto_sem_login(client, db):
 
 
 def test_edita_produto_com_login(client, db):
-    user_jon()
     fixtures.jon_ketchup()
     client.force_login(User.objects.get(username='jon'))
-    resp = client.post('/api/products/edit_product/1', ketchup)
+    product_to_update = {
+        'id': 1,
+        'target_quantity': 3,
+    }
+    resp = client.post('/api/products/edit_product/1', product_to_update)
     data = resp.json()
-
     assert resp.status_code == 200
     assert data == {
-        'id': ketchup['id'],
-        'name': ketchup['name'],
-        'price': ketchup['price'],
-        'target_quantity': ketchup['target_quantity'],
-        'real_quantity': ketchup['real_quantity'],
-        'type': ketchup['type'],
-    }
+        'owner': {
+            'owner_id': 3,
+            'owner_name': 'jon'
+            },
+        'product': {
+            'id': 1,
+            'name': 'Ketchup',
+            'price': 14.9,
+            'target_quantity': 3,
+            'real_quantity': 0,
+            'type': 'Secos'
+            }
+        }
 
 
 def test_delete_product(client, db):

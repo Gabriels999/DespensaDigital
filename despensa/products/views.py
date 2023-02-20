@@ -29,7 +29,7 @@ def list_products(request):
 @csrf_exempt
 @ajax_login_required
 def edit_product(request, id):
-    product = product_svc.edit_product(request.POST, id)
+    product = product_svc.edit_product(request.POST, request.user.id)
     return JsonResponse(product)
 
 
