@@ -21,6 +21,12 @@ def register_product(request):
 
 
 @ajax_login_required
+def list_all_products(request):
+    products = product_svc.list_all_products()
+    return JsonResponse({'products': products})
+
+
+@ajax_login_required
 def list_products(request):
     products = product_svc.list_products(request.user.id)
     return JsonResponse({'products': products})

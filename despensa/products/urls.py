@@ -13,6 +13,7 @@ urlpatterns = [
     path('shopping_list', views.shopping_list, name='shopping_list'),
 
     # Related to product
+    path('list_all_products', views.list_all_products, name='list_all_products'),
     path('register_product', views.register_product, name='register_product'),
     path('edit_product/<id>', views.edit_product, name='edit_product'),
 

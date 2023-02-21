@@ -3,6 +3,11 @@ from ..models import Product, UserStore
 from django.db.models import F, Q
 
 
+def list_all_products():
+    products = Product.objects.all()
+    return [product.to_dict_json() for product in products]
+
+
 def list_products(id):
     products = UserStore.objects.filter(owner=Profile.objects.get(user__id=id))
     return [product.to_dict_json() for product in products]
