@@ -82,6 +82,25 @@ def test_lista_produtos_com_login(client, db):
     }
 
 
+def test_lista_todos_produtos_com_login(client, db):
+    fixtures.jon_ketchup()
+
+    client.force_login(User.objects.get(username='jon'))
+    resp = client.get('/api/products/list_all_products')
+    data = resp.json()
+    assert resp.status_code == 200
+    assert data == {
+        'products': [
+            {
+                "id": 1,
+                "name": "Ketchup",
+                "price": 14.9,
+                "type": "Secos"
+            }
+        ]
+    }
+
+
 def test_edita_produto_sem_login(client, db):
     resp = client.post('/api/products/edit_product/2')
     assert resp.status_code == 401
@@ -99,7 +118,7 @@ def test_edita_produto_com_login(client, db):
     assert resp.status_code == 200
     assert data == {
         'owner': {
-            'owner_id': 3,
+            'owner_id': 4,
             'owner_name': 'jon'
             },
         'product': {
@@ -136,7 +155,7 @@ def test_usar_produto_com_login(client, db):
     assert resp.status_code == 200
     assert data == {
         'owner': {
-            'owner_id': 5,
+            'owner_id': 6,
             'owner_name': 'jon'
             },
         'product': {
@@ -158,7 +177,7 @@ def test_usar_produto_sem_estoque(client, db):
     assert resp.status_code == 200
     assert data == {
         'owner': {
-            'owner_id': 6,
+            'owner_id': 7,
             'owner_name': 'jon'
             },
         'product': {
@@ -191,7 +210,7 @@ def test_comprar_produto(client, db):
     assert resp.status_code == 200
     assert data == {
         'owner': {
-            'owner_id': 8,
+            'owner_id': 9,
             'owner_name': 'jon'
         },
         'product': {
