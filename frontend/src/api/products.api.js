@@ -65,7 +65,7 @@ export default {
   deleteProduct: (id) => {
     return new Promise((resolve, reject) => {
       api
-      .post(`/api/products/delete_product/${id}`, apiHelpers.dataToForm({id}))
+      .post(`/api/products/remove_product/${id}`, apiHelpers.dataToForm({id}))
       .then((response) => {
         return resolve(response.data);
         })

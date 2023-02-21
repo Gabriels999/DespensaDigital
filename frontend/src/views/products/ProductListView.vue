@@ -72,25 +72,25 @@ export default {
     },
     addProduct(product) {
       this.loading = true
-      debugger
-      API.addProduct(product).then((product) => {
-        this.appStore.showSnackbar(`Novo produto adicionado! #${product.id}`)
+      API.addProduct(product).then(() => {
+        debugger
+        this.appStore.showSnackbar(`${product.name} adicionado!`)
         this.getUserProducts()
         this.loading = false
       })
     },
     updateProduct(product) {
       this.loading = true
-      API.updateProduct(product).then((product) => {
+      API.updateProduct(product).then(() => {
         this.appStore.showSnackbar(`O produto ${product.name} foi editado!`)
         this.getUserProducts()
         this.loading = false
       })
     },
-    deleteProduct(id) {
+    deleteProduct(item) {
       this.loading = true
-      API.deleteProduct(id).then(() => {
-        this.appStore.showSnackbar('Produto deletado.')
+      API.deleteProduct(item.id).then(() => {
+        this.appStore.showSnackbar(`${item.name} removido da sua despensa!`)
         this.getUserProducts()
         this.loading = false
       });

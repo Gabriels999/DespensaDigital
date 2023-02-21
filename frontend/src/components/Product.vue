@@ -50,7 +50,7 @@ export default {
   }, 
   methods: {
     deleteProduct(item) {
-      this.$emit("delProduct", item.id)
+      this.$emit("delProduct", {id: item.id, name: item.name})
     },
     updateProduct(item){
       this.$emit('upProduct', item)

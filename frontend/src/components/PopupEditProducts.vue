@@ -13,13 +13,14 @@
                 :rules="[(v) => !!v || 'Insira um nome valido']"
                 label="Name"
                 required
+                disabled
               ></v-text-field>
-
               <v-text-field
                 v-model="price"
                 label="Preco"
                 :rules="[(v) => !!v || 'Insira um preco valido']"
                 required
+                disabled
               ></v-text-field>
               <v-text-field
                 v-model="target_quantity"
@@ -33,15 +34,14 @@
                 label="Quantidade atual"
                 required
               ></v-text-field>
-
               <v-select
                 v-model="typePicker"
                 :items="types"
                 :rules="[(v) => !!v || 'Selecione um tipo']"
                 label="Tipo"
                 required
+                disabled
               ></v-select>
-
               <v-btn
                 color="success"
                 class="mr-4"

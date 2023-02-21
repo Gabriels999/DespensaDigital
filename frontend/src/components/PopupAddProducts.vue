@@ -115,10 +115,10 @@ export default {
     addProduct() {
       const newProduct = {
         id: this.productId,
+        name: this.name,
         target_quantity: this.target_quantity,
         real_quantity: this.real_quantity,
       };
-      debugger
       this.$emit('addProduct', newProduct)
     },
     closePopup(){
