@@ -10,7 +10,7 @@
       </v-col>
       <PopupShoppingList/>
       <PopupAddProducts @addProduct="addProduct" :productList=allProductsList />
-      <v-btn>Adicionar produto na despensa</v-btn>
+      <v-btn>Novo Produto</v-btn>
     </v-row>
     <v-row>
       <v-card class="d-flex mx-4" v-for="item in productsList" :key="item.id">
