@@ -6,23 +6,23 @@ function getMaxId(items) {
 }
 
 module.exports = {
-  find: (req, res) => {
+  list: (req, res) => {
     const loggedUser = accounts.loginRequired(req, res);
     if (!loggedUser) {
       return;
     }
     const { id } = req.params;
     if (id != undefined) {
-      const task = data.tasks.find((t) => t.id == id);
-      if (!task || task.userId != loggedUser.id) {
+      const userStore = data.userStore.find((t) => t.ownerId == id);
+      if (!userStore || userStore.ownerId != loggedUser.id) {
         res.status(404).end();
         return;
       }
-      res.send(task);
+      res.send(userStore);
       return;
     }
     const response = {
-      todos: data.tasks.filter((t) => t.userId == loggedUser.id),
+      userStoreList: data.userStore.filter((t) => t.ownerId == loggedUser.id),
     };
     res.send(response);
   },
@@ -32,13 +32,13 @@ module.exports = {
       return;
     }
     const { description } = req.body;
-    const id = getMaxId(data.tasks) + 1;
+    const id = getMaxId(data.products) + 1;
     const newTask = {
       id,
       description,
       userId: loggedUser.id,
     };
-    data.tasks.push(newTask);
+    data.products.push(newTask);
     res.send(newTask);
   },
 };

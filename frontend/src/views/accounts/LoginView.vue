@@ -6,7 +6,7 @@
         <v-form>
           <v-text-field
             v-model="username"
-            label="E-Mail"
+            label="Username"
             prepend-inner-icon="mdi-email-fast-outline"
             variant="outlined"
             required

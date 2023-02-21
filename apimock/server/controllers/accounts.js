@@ -42,6 +42,7 @@ module.exports = {
   },
   whoami: (req, res) => {
     let user;
+    console.log(req)
     const sessionid = req.cookies.sessionid;
     if (sessionid) {
       user = getUserBySessionId(sessionid);

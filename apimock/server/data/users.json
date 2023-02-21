@@ -1,6 +1,16 @@
 [
   {
     "id": 1,
+    "name": "Gabriel Santos",
+    "username": "gabrielsantos",
+    "email": "gabtec97@gmail.com",
+    "first_name": "Gabriel",
+    "last_name": "Santos",
+    "password": "despensa",
+    "permissions": { "ADMIN": true, "STAFF": true }
+  },
+  {
+    "id": 2,
     "name": "Jorge Oliva",
     "username": "jorge",
     "email": "jorgeo@example.com",
@@ -9,7 +19,7 @@
     "permissions": { "ADMIN": false, "STAFF": false }
   },
   {
-    "id": 2,
+    "id": 3,
     "name": "John Doe",
     "username": "john",
     "email": "jd@example.com",

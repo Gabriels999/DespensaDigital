@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Ketchup",
+    "price": 13.99,
+    "type": "Secos"
+  },
+  {
+    "id": 2,
+    "name": "Maionese",
+    "price": 14.9,
+    "type": "Secos"
+  },
+  {
+    "id": 3,
+    "name": "Refrigerante",
+    "price": 8.9,
+    "type": "Refrigerados"
+  },
+  {
+    "id": 4,
+    "name": "Tomate",
+    "price": 3.9,
+    "type": "Hortifruti"
+  },
+  {
+    "id": 5,
+    "name": "Peito de Frango",
+    "price": 12.9,
+    "type": "Congelados"
+  },
+  {
+    "id": 6,
+    "name": "Manga",
+    "price": 12.9,
+    "type": "Frutas"
+  },
+  {
+    "id": 7,
+    "name": "Pasta de Dentes",
+    "price": 5.5,
+    "type": "Higiene"
+  },
+  {
+    "id": 7,
+    "name": "Desinfetante",
+    "price": 10.5,
+    "type": "Limpeza"
+  }
+]
