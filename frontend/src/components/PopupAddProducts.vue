@@ -77,7 +77,7 @@
 <script>
 
 export default {
-  name: "PopupCreateProduct",
+  name: "PopupAddProduct",
   emits: ['addProduct', 'update:isActive'],
   props: {
     productList: {
@@ -88,6 +88,7 @@ export default {
     return {
       valid: true,
       name: '',
+      productId: null,
       price: null,
       target_quantity: null,
       real_quantity: null,
@@ -113,27 +114,30 @@ export default {
     },
     addProduct() {
       const newProduct = {
-        product: this.product,
+        id: this.productId,
         target_quantity: this.target_quantity,
         real_quantity: this.real_quantity,
       };
+      debugger
       this.$emit('addProduct', newProduct)
     },
     closePopup(){
       this.product = null
       this.name = null
-      this.price = null // dar um jeito de permitir virgula nesse valor
+      this.price = null
       this.typePicker = null
-      debugger
-      this.$emit('update:isActive', false)
+      this.target_quantity = null,
+      this.real_quantity = null,
+      this.$emit('update:isActive', false) //pedir ajuda pra fazer isso fechar junto no reset
     }
   },
   watch:{
     product(){
       this.productList.forEach(item =>{
         if(item.name == this.product){
+          this.productId = item.id
           this.name = item.name
-          this.price = item.price // dar um jeito de permitir virgula nesse valor
+          this.price = item.price
           this.typePicker = item.type
         }
       })

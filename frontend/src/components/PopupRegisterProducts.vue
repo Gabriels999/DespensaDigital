@@ -52,7 +52,7 @@
 <script>
 
 export default {
-  name: "PopupCreateProduct",
+  name: "PopupRegisterProduct",
   emits: ['addProduct'],
   props: {
     productList: {

@@ -9,7 +9,7 @@
         </v-card>
       </v-col>
       <PopupShoppingList/>
-      <PopupCreateProducts @addProduct="addProduct" :productList=allProductsList />
+      <PopupAddProducts @addProduct="addProduct" :productList=allProductsList />
       <v-btn>Adicionar produto na despensa</v-btn>
     </v-row>
     <v-row>
@@ -31,13 +31,13 @@ import { useAppStore } from "@/stores/appStore"
 import { useAccountsStore } from "@/stores/accountsStore"
 import API from "@/api/products.api.js"
 import Product from "@/components/Product.vue"
-import PopupCreateProducts from "@/components/PopupCreateProducts.vue";
+import PopupAddProducts from "@/components/PopupAddProducts.vue";
 import PopupShoppingList from "@/components/PopupShoppingList.vue";
 
 export default {
   name: "ProductsList",
   components: {
-    Product, PopupCreateProducts, PopupShoppingList },
+    Product, PopupAddProducts, PopupShoppingList },
   setup() {
     const appStore = useAppStore()
     const userStore = useAccountsStore()
@@ -72,7 +72,7 @@ export default {
     },
     addProduct(product) {
       this.loading = true
-      product['owner'] = this.user
+      debugger
       API.addProduct(product).then((product) => {
         this.appStore.showSnackbar(`Novo produto adicionado! #${product.id}`)
         this.getUserProducts()
