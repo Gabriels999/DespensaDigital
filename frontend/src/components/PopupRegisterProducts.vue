@@ -7,16 +7,6 @@
       <template v-slot:default="{ isActive }">
         <v-card>
           <v-col cols="12">
-            <v-autocomplete
-                  v-model="product"
-                  :items="productList"
-                  item-title="name"
-                  color="white"
-                  hide-no-data
-                  item-text="Produto"
-                  label="Produto"
-                  placeholder="Insira um produto"
-                ></v-autocomplete>
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-text-field
                 v-model="name"
@@ -24,26 +14,12 @@
                 label="Name"
                 disabled
               ></v-text-field>
-
               <v-text-field
                 v-model="price"
                 label="Preco"
                 :rules="[(v) => !!v || 'Insira um preco valido']"
                 disabled
               ></v-text-field>
-              <v-text-field
-                v-model="target_quantity"
-                :rules="[(v) => !!v || 'Insira uma quantidade valida']"
-                label="Quantidade para estoque"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="real_quantity"
-                :rules="[(v) => !!v || 'Insira uma quantidade valida']"
-                label="Quantidade atual"
-                required
-              ></v-text-field>
-
               <v-select
                 v-model="typePicker"
                 :items="types"
@@ -52,7 +28,6 @@
                 required
                 disabled
               ></v-select>
-
               <v-btn
                 :disabled="!valid"
                 color="success"
@@ -78,7 +53,7 @@
 
 export default {
   name: "PopupCreateProduct",
-  emits: ['addProduct', 'update:isActive'],
+  emits: ['addProduct'],
   props: {
     productList: {
       type: Array
@@ -125,7 +100,7 @@ export default {
       this.price = null // dar um jeito de permitir virgula nesse valor
       this.typePicker = null
       debugger
-      this.$emit('update:isActive', false)
+      isActive.value = false
     }
   },
   watch:{

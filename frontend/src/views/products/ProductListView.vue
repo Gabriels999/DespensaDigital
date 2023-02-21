@@ -3,11 +3,14 @@
     <v-row justify="center" align="center">
       <v-col cols="12">
         <v-card>
-          <v-card-title class="headline"> Products </v-card-title>
+          <v-card-title class="headline">
+            Products
+          </v-card-title>
         </v-card>
       </v-col>
       <PopupShoppingList/>
-      <PopupCreateProducts @createProduct="createProduct"/>
+      <PopupCreateProducts @addProduct="addProduct" :productList=allProductsList />
+      <v-btn>Adicionar produto na despensa</v-btn>
     </v-row>
     <v-row>
       <v-card class="d-flex mx-4" v-for="item in productsList" :key="item.id">
@@ -44,25 +47,35 @@ export default {
     return {
       loading: false,
       productsList: [],
-      user: this.userStore.loggedUser
+      allProductsList: [],
+      user: this.userStore.loggedUser,
     }
   },
   mounted() {
-    this.getProducts()
+    this.getUserProducts()
+    this.getAllProducts()
   },
   methods: {
-    getProducts() {
+    getAllProducts(){
       this.loading = true
-      API.getProducts().then((data) => {
+      API.getAllProducts().then((data)=> {
+        this.allProductsList = data.products
+        this.loading = false
+      })
+    },
+    getUserProducts() {
+      this.loading = true
+      API.getUserProducts().then((data) => {
         this.productsList = data.products
         this.loading = false
       })
     },
-    createProduct(product) {
+    addProduct(product) {
       this.loading = true
-      API.createProduct(product).then((product) => {
+      product['owner'] = this.user
+      API.addProduct(product).then((product) => {
         this.appStore.showSnackbar(`Novo produto adicionado! #${product.id}`)
-        this.getProducts()
+        this.getUserProducts()
         this.loading = false
       })
     },
@@ -70,7 +83,7 @@ export default {
       this.loading = true
       API.updateProduct(product).then((product) => {
         this.appStore.showSnackbar(`O produto ${product.name} foi editado!`)
-        this.getProducts()
+        this.getUserProducts()
         this.loading = false
       })
     },
@@ -78,7 +91,7 @@ export default {
       this.loading = true
       API.deleteProduct(id).then(() => {
         this.appStore.showSnackbar('Produto deletado.')
-        this.getProducts()
+        this.getUserProducts()
         this.loading = false
       });
     },
@@ -86,7 +99,7 @@ export default {
       if (item.real_quantity > 0){
         API.useProduct(item.id).then(()=>{
           this.appStore.showSnackbar('Produto consumido!')
-          this.getProducts()
+          this.getUserProducts()
         })
       }
       else{
@@ -96,7 +109,7 @@ export default {
     shopProduct(id){
         API.shopProduct(id).then(()=>{
           this.appStore.showSnackbar('Produto abastecido!')
-          this.getProducts()
+          this.getUserProducts()
         })
       }
     }

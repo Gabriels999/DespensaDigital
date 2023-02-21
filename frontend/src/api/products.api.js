@@ -2,10 +2,34 @@ import api from "./config.js";
 import apiHelpers from "./helpers.js";
 
 export default {
-  getProducts: () => {
+  getAllProducts: () => {
+    return new Promise((resolve, reject) => {
+      api
+        .get("/api/products/list_all_products")
+        .then((response) => {
+          return resolve(response.data);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+  },
+  getUserProducts: () => {
     return new Promise((resolve, reject) => {
       api
         .get("/api/products/list_products")
+        .then((response) => {
+          return resolve(response.data);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+  },
+  addProduct: (product) => {
+    return new Promise((resolve, reject) => {
+      api
+        .post("/api/products/add_product", apiHelpers.dataToForm(product))
         .then((response) => {
           return resolve(response.data);
         })
