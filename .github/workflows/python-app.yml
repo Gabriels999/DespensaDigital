@@ -56,10 +56,15 @@ jobs:
           POSTGRES_PORT: 5432
 
       - name: Tests Coverage - Products
-        run: pytest --cov=despensa/products
+        run:
+          pytest --cov=despensa/products
+          pytest --cov=despensa/accounts
+          pytest --cov=despensa/base
+        env:
+          POSTGRES_DB: db_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: db_test_pwd_ci
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
 
-      - name: Tests Coverage - Accounts
-        run: pytest --cov=despensa/accounts
 
-      - name: Tests Coverage - Base
-        run: pytest --cov=despensa/base
