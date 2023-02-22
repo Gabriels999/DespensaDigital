@@ -64,4 +64,6 @@ jobs:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
 
