@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from ..models import Profile
-from . import fixtures
 
 
 def test_deve_retornar_usuario_nao_logado(client):

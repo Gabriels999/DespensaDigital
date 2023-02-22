@@ -26,13 +26,22 @@ def add_product_to_UserStore(new_product, user_id):
     return product_user_store.to_dict_json()
 
 
-def register_product(new_product):
+def register_product(new_product, user_id):
     product = Product(
             name=new_product['name'],
             price=float(new_product['price']),
             type=new_product['type'],
         )
     product.save()
+
+    if 'target_quantity' in new_product.keys():
+        add_to_UserStore = {
+            "id": product.id,
+            "target_quantity": new_product['target_quantity'],
+            "real_quantity": new_product['real_quantity']
+        }
+        return add_product_to_UserStore(add_to_UserStore, user_id)
+
     return product.to_dict_json()
 
 
