@@ -76,5 +76,6 @@ class UserStore(models.Model):
                 'target_quantity': self.target_quantity,
                 'real_quantity': self.real_quantity,
                 'type': self.product.type,
+                'expected_total': round((self.target_quantity-self.real_quantity)*self.product.price, 2)
             }
         }

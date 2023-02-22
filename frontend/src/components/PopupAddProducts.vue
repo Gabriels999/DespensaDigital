@@ -1,6 +1,6 @@
 <template>
   <v-col cols="auto">
-    <v-dialog transition="dialog-bottom-transition" max-width="600">
+    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="dialog">
       <template v-slot:activator="{ props }">
         <v-btn color="primary" v-bind="props"> <v-icon icon="mdi-plus"></v-icon></v-btn>
       </template>
@@ -86,6 +86,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       valid: true,
       name: '',
       productId: null,
@@ -120,6 +121,7 @@ export default {
         real_quantity: this.real_quantity,
       };
       this.$emit('addProduct', newProduct)
+      this.dialog = false
     },
     closePopup(){
       this.product = null
@@ -128,7 +130,7 @@ export default {
       this.typePicker = null
       this.target_quantity = null,
       this.real_quantity = null,
-      this.$emit('update:isActive', false) //pedir ajuda pra fazer isso fechar junto no reset
+      this.dialog = false
     }
   },
   watch:{

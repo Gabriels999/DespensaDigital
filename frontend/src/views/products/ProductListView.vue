@@ -10,7 +10,7 @@
       </v-col>
       <PopupShoppingList/>
       <PopupAddProducts @addProduct="addProduct" :productList=allProductsList />
-      <v-btn>Novo Produto</v-btn>
+      <PopupRegisterProducts/>
     </v-row>
     <v-row>
       <v-card class="d-flex mx-4" v-for="item in productsList" :key="item.id">
@@ -33,11 +33,12 @@ import API from "@/api/products.api.js"
 import Product from "@/components/Product.vue"
 import PopupAddProducts from "@/components/PopupAddProducts.vue";
 import PopupShoppingList from "@/components/PopupShoppingList.vue";
+import PopupRegisterProducts from "@/components/PopupRegisterProducts.vue"
 
 export default {
   name: "ProductsList",
   components: {
-    Product, PopupAddProducts, PopupShoppingList },
+    Product, PopupAddProducts, PopupRegisterProducts, PopupShoppingList },
   setup() {
     const appStore = useAppStore()
     const userStore = useAccountsStore()
@@ -73,7 +74,6 @@ export default {
     addProduct(product) {
       this.loading = true
       API.addProduct(product).then(() => {
-        debugger
         this.appStore.showSnackbar(`${product.name} adicionado!`)
         this.getUserProducts()
         this.loading = false
