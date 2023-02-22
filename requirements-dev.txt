@@ -8,3 +8,7 @@ flake8==5.0.4
 #Testes
 pytest==7.1.3
 pytest-django==4.5.2
+
+#Testes Covarage
+coverage==7.1.0
+pytest-cov==4.0.0

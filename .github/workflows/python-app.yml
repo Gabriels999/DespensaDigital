@@ -54,3 +54,12 @@ jobs:
           POSTGRES_PASSWORD: db_test_pwd_ci
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
+
+      - name: Tests Coverage - Products
+        run: pytest --cov=despensa/products
+
+      - name: Tests Coverage - Accounts
+        run: pytest --cov=despensa/accounts
+
+      - name: Tests Coverage - Base
+        run: pytest --cov=despensa/base
