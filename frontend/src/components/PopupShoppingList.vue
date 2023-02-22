@@ -11,10 +11,11 @@
                 <v-divider></v-divider>
                 <div v-for="item in shoppingList" :key="item.id">
                     <v-card-text>
-                        <p>{{ item.name }}</p>
-                        <p>Precisa comprar: {{ item.target_quantity - item.real_quantity }}</p>
-                        <p>Ultimo preco: {{ item.price }}</p>
-                        <p>Tipo: {{ item.type }}</p>
+                        <p>{{ item.product.name }}</p>
+                        <p>Precisa comprar: {{ item.product.target_quantity - item.product.real_quantity }}</p>
+                        <p>Ultimo preco: R$ {{ item.product.price }}</p>
+                        <p>Total esperado: R$ {{ item.product.expected_total }}</p>
+                        <p>Tipo: {{ item.product.type }}</p>
                     </v-card-text>
                 </div>
                 <v-card-actions>
@@ -33,11 +34,6 @@ import API from "@/api/products.api.js"
 
 export default {
     name:"PopupShoppingList",
-    props: {
-        shoppingList: {
-            type: Object,
-        },
-    },
     data() {
         return {
             dialogm1: '',

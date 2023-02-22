@@ -1,8 +1,8 @@
 <template>
   <v-col cols="auto">
-    <v-dialog transition="dialog-bottom-transition" max-width="600">
+    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="dialog">
       <template v-slot:activator="{ props }">
-        <v-btn color="primary" v-bind="props"> <v-icon icon="mdi-plus"></v-icon></v-btn>
+        <v-btn color="primary" v-bind="props"> Registrar Produto</v-btn>
       </template>
       <template v-slot:default="{ isActive }">
         <v-card>
@@ -12,13 +12,11 @@
                 v-model="name"
                 :rules="[(v) => !!v || 'Insira um nome valido']"
                 label="Name"
-                disabled
               ></v-text-field>
               <v-text-field
                 v-model="price"
                 label="Preco"
                 :rules="[(v) => !!v || 'Insira um preco valido']"
-                disabled
               ></v-text-field>
               <v-select
                 v-model="typePicker"
@@ -26,8 +24,25 @@
                 :rules="[(v) => !!v || 'Selecione um tipo']"
                 label="Tipo"
                 required
-                disabled
               ></v-select>
+              <v-checkbox
+                v-model="addToUserStore"
+                label="Adicionar este item na sua despensa ?"
+              ></v-checkbox>
+              <div v-show="addToUserStore">
+                  <v-text-field
+                  v-model="target_quantity"
+                  :rules="[(v) => !!v || 'Insira uma quantidade valida']"
+                  label="Quantidade para estoque"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="real_quantity"
+                  :rules="[(v) => !!v || 'Insira uma quantidade valida']"
+                  label="Quantidade atual"
+                  required
+                ></v-text-field>
+              </div>
               <v-btn
                 :disabled="!valid"
                 color="success"
@@ -53,7 +68,7 @@
 
 export default {
   name: "PopupRegisterProduct",
-  emits: ['addProduct'],
+  emits: ['registerProduct'],
   props: {
     productList: {
       type: Array
@@ -61,6 +76,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       valid: true,
       name: '',
       price: null,
@@ -76,42 +92,34 @@ export default {
         "Limpeza",
         "Higiene",
       ],
-      product: null,
+      addToUserStore: true
     };
   },
   methods: {
     async validate() {
       const { valid } = await this.$refs.form.validate()
       if (valid){
-        this.addProduct();
+        this.registerProduct();
       }
     },
-    addProduct() {
+    registerProduct() {
       const newProduct = {
-        product: this.product,
-        target_quantity: this.target_quantity,
-        real_quantity: this.real_quantity,
+        name: this.name,
+        price: this.price,
+        type: this.typePicker,
       };
-      this.$emit('addProduct', newProduct)
+      if(this.addToUserStore){
+        newProduct["target_quantity"] = this.target_quantity
+        newProduct["real_quantity"] = this.real_quantity
+      }
+      this.$emit('registerProduct', newProduct)
     },
     closePopup(){
       this.product = null
       this.name = null
-      this.price = null // dar um jeito de permitir virgula nesse valor
+      this.price = null
       this.typePicker = null
-      debugger
-      isActive.value = false
-    }
-  },
-  watch:{
-    product(){
-      this.productList.forEach(item =>{
-        if(item.name == this.product){
-          this.name = item.name
-          this.price = item.price // dar um jeito de permitir virgula nesse valor
-          this.typePicker = item.type
-        }
-      })
+      this.dialog = false
     }
   }
 };

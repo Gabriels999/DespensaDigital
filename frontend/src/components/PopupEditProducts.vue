@@ -1,6 +1,6 @@
 <template>
   <v-col cols="auto">
-    <v-dialog transition="dialog-bottom-transition" max-width="600">
+    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="dialog">
       <template v-slot:activator="{ props }">
         <v-btn color="primary" v-bind="props">Editar</v-btn>
       </template>
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-//TODO: Tem um jeito de fazer fechar diretamente como na linha 65 sem perder a oportunidade de usar a funcao na linha 59?
 
 export default {
   name: "PopupEditProduct",
@@ -78,6 +77,7 @@ export default {
 
   data() {
     return {
+      dialog: false,
       valid: true,
       name: this.product.name,
       price: this.product.price,
@@ -106,6 +106,7 @@ export default {
         real_quantity: this.real_quantity,
       };
       this.$emit('updateProduct', updatedProduct)
+      this.dialog = false
     },
   },
 };
