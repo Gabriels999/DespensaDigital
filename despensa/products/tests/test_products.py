@@ -45,7 +45,8 @@ def test_adicionar_produto_na_despensa_com_login(client, db):
             'price': 14.9,
             'target_quantity': 1,
             'real_quantity': 0,
-            'type': 'Secos'
+            'type': 'Secos',
+            'expected_total': 14.9
             }
         }
 
@@ -75,7 +76,8 @@ def test_lista_produtos_com_login(client, db):
                     'price': 14.9,
                     'target_quantity': 1,
                     'real_quantity': 0,
-                    'type': 'Secos'
+                    'type': 'Secos',
+                    'expected_total': 14.9
                 }
             }
         ]
@@ -127,7 +129,8 @@ def test_edita_produto_com_login(client, db):
             'price': 14.9,
             'target_quantity': 3,
             'real_quantity': 0,
-            'type': 'Secos'
+            'type': 'Secos',
+            'expected_total': 44.7
             }
         }
 
@@ -164,7 +167,8 @@ def test_usar_produto_com_login(client, db):
             'price': 14.9,
             'target_quantity': 3,
             'real_quantity': 1,
-            'type': 'Secos'
+            'type': 'Secos',
+            'expected_total': 29.8
             }
         }
 
@@ -186,7 +190,8 @@ def test_usar_produto_sem_estoque(client, db):
             'price': 14.9,
             'target_quantity': 1,
             'real_quantity': 0,
-            'type': 'Secos'
+            'type': 'Secos',
+            'expected_total': 14.9
             }
         }
 
@@ -219,6 +224,7 @@ def test_comprar_produto(client, db):
             'price': 14.9,
             'target_quantity': 1,
             'real_quantity': 1,
-            'type': 'Secos'
+            'type': 'Secos',
+            'expected_total': 0
             }
         }
