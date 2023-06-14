@@ -9,6 +9,9 @@
             <v-card>
                 <v-card-title>Shopping List</v-card-title>
                 <v-divider></v-divider>
+                <v-card-text v-if="shoppingList.length == 0">
+                        <p>Sua lista está vazia!</p>
+                    </v-card-text>
                 <div v-for="item in shoppingList" :key="item.id">
                     <v-card-text>
                         <p>{{ item.product.name }}</p>
