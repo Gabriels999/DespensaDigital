@@ -32,15 +32,11 @@
               <div v-show="addToUserStore">
                   <v-text-field
                   v-model="target_quantity"
-                  :rules="[(v) => !!v || 'Insira uma quantidade valida']"
                   label="Quantidade para estoque"
-                  required
                 ></v-text-field>
                 <v-text-field
                   v-model="real_quantity"
-                  :rules="[(v) => !!v || 'Insira uma quantidade valida']"
                   label="Quantidade atual"
-                  required
                 ></v-text-field>
               </div>
               <v-btn
