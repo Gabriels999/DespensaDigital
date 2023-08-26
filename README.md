@@ -18,7 +18,7 @@ Isso porque a minha memória não é das melhores e frequentemente eu esqueço d
 Quer rodar esse projeto localmente ? Vou deixar os passos aqui para fazer o setup de forma tranquila e sem maiores problemas.
 Para isso, é necessário que você clone este projeto e entre na pasta dele pelo seu editor de código. Essa parte eu vou deixar **contigo**!
 
-1. Copie o arquivo `.env-sample` e cole na pasta root da aplicação. Em seguida renomei-o para `.env`
+1. Copie o arquivo `.env-sample` com o comando: `cp .env-sample .env`.
 2. Rode o comando `docker compose up` e pronto.
 
 A aplicação estará disponível na sua máquina da seguinte forma:
