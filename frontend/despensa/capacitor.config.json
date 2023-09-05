@@ -1,0 +1,11 @@
+{
+  "appId": "despensa.app.br",
+  "appName": "Despensa",
+  "bundledWebRuntime": false,
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}
