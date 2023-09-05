@@ -9,8 +9,8 @@
         </v-card>
       </v-col>
       <PopupShoppingList/>
-      <PopupAddProducts @addProduct="addProduct" :productList=allProductsList />
-      <PopupRegisterProducts/>
+      <PopupAddProducts :productList=allProductsList @addProduct="addProduct"/>
+      <PopupRegisterProducts @registerProduct="registerProduct"/>
     </v-row>
     <v-row>
       <v-card class="d-flex mx-4" v-for="item in productsList" :key="item.id">
@@ -68,6 +68,14 @@ export default {
       this.loading = true
       API.getUserProducts().then((data) => {
         this.productsList = data.products
+        this.loading = false
+      })
+    },
+    registerProduct(product) {
+      this.loading = true
+      API.createProduct(product).then(() => {
+        this.appStore.showSnackbar(`${product.name} adicionado!`)
+        this.getUserProducts()
         this.loading = false
       })
     },

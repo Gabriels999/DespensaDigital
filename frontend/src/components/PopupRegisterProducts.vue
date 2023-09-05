@@ -64,12 +64,10 @@
 
 export default {
   name: "PopupRegisterProduct",
-  emits: ['registerProduct'],
   props: {
-    productList: {
-      type: Array
-    }
+    productList: Array
   },
+  emits: ['registerProduct'],
   data() {
     return {
       dialog: false,
@@ -109,12 +107,15 @@ export default {
         newProduct["real_quantity"] = this.real_quantity
       }
       this.$emit('registerProduct', newProduct)
+      this.closePopup()
     },
     closePopup(){
       this.product = null
       this.name = null
       this.price = null
       this.typePicker = null
+      this.target_quantity = null
+      this.real_quantity = null
       this.dialog = false
     }
   }
