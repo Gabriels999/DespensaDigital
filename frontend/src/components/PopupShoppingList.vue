@@ -2,7 +2,7 @@
     <v-row justify="center">
         <v-dialog v-model="dialog" scrollable>
             <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props" @click="generateShoppingList">
+                <v-btn color="primary" v-bind="props" class="py-0" @click="generateShoppingList">
                     Gerar Lista de Compras
                 </v-btn>
             </template>
@@ -16,8 +16,8 @@
                     <v-card-text>
                         <p>{{ item.product.name }}</p>
                         <p>Precisa comprar: {{ item.product.target_quantity - item.product.real_quantity }}</p>
-                        <p>Ultimo preco: R$ {{ item.product.price }}</p>
-                        <p>Total esperado: R$ {{ item.product.expected_total }}</p>
+                        <!-- <p>Ultimo preco: R$ {{ item.product.price }}</p> -->
+                        <!-- <p>Total esperado: R$ {{ item.product.expected_total }}</p> -->
                         <p>Tipo: {{ item.product.type }}</p>
                     </v-card-text>
                 </div>

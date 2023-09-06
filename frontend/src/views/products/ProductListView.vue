@@ -8,12 +8,20 @@
           </v-card-title>
         </v-card>
       </v-col>
-      <PopupShoppingList/>
-      <PopupAddProducts :productList=allProductsList @addProduct="addProduct"/>
-      <PopupRegisterProducts @registerProduct="registerProduct"/>
+    </v-row>
+    <v-row justify="center" align="center">
+      <v-col cols="12">
+        <PopupShoppingList align="center"/>
+      </v-col>
+      <v-col cols="12" class="py-1">
+        <PopupRegisterProducts align="center" @registerProduct="registerProduct"/>
+      </v-col>
+      <v-col cols="12" class="py-0">
+        <PopupAddProducts :productList="allProductsList" align="center" @addProduct="addProduct" />
+      </v-col>
     </v-row>
     <v-row>
-      <v-card class="d-flex mx-4" v-for="item in productsList" :key="item.id">
+      <v-card v-for="item in productsList" :key="item.id" class="d-flex mx-4">
         <product
         :product="item.product"
         @delProduct="deleteProduct"
@@ -74,7 +82,7 @@ export default {
     registerProduct(product) {
       this.loading = true
       API.createProduct(product).then(() => {
-        this.appStore.showSnackbar(`${product.name} adicionado!`)
+        this.appStore.showSnackbar(`${product.name} registrado!`)
         this.getUserProducts()
         this.loading = false
       })
