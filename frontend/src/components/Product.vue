@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="400">
     <v-card-title>{{ product.name }}</v-card-title>
-    <v-card-subtitle class="pt-4 d-flex justify-space-between">
+    <v-card-subtitle class="d-flex justify-space-between">
       #{{ product.id }}
       <v-chip label class="">
         {{ product.type }}

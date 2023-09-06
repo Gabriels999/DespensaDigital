@@ -2,7 +2,7 @@
   <v-col cols="auto">
     <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="dialog">
       <template v-slot:activator="{ props }">
-        <v-btn color="primary" v-bind="props"> <v-icon icon="mdi-plus"></v-icon></v-btn>
+        <v-btn color="primary" v-bind="props" class="py-0"> <v-icon icon="mdi-plus" class="py-0"></v-icon></v-btn>
       </template>
       <template v-slot:default="{ isActive }">
         <v-card>
