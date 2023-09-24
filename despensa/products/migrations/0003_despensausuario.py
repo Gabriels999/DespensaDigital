@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='DespensaUsuario',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.profile')),
+                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='auth.User')),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.product')),
             ],
             options={
