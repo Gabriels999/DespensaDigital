@@ -1,6 +1,5 @@
+from django.contrib.auth.models import User
 from django.db import models
-
-from ..accounts.models import User
 
 
 class ActivityLog(models.Model):
@@ -62,13 +61,13 @@ class UserStore(models.Model):
         ordering = ['owner']
 
     def __str__(self):
-        return f"{self.owner.user.username} | {self.product.name}"
+        return f"{self.owner.username} | {self.product.name}"
 
     def to_dict_json(self):
         return {
             'owner': {
                 'owner_id': self.owner.id,
-                'owner_name': self.owner.user.username,
+                'owner_name': self.owner.username,
             },
             "product": {
                 'id': self.product.id,

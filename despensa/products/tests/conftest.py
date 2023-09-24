@@ -1,13 +1,12 @@
-from despensa.products.models import User
-from ..models import Product, UserStore
-from ...accounts.models import Profile
-
 import pytest
+from django.contrib.auth.models import User
+
+from ..models import Product, UserStore
 
 
 @pytest.fixture()
 def user_jon(db):
-    ze = User.objects.create_user(
+    ze = User.objects.create(
         username="jon",
         first_name="Jon",
         last_name="Snow",
@@ -18,23 +17,13 @@ def user_jon(db):
 
 
 @pytest.fixture()
-def profile_jon(db, user_jon):
-    profile = Profile(
-        user=User.objects.first(),
-        bio='Staff dev',
-        avatar='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7b_kyJLpVSVTw48E8LjRICv73BfaKJ9RAtQoYzmD4jwjnWEJ-dMzHInpgP9t10ZQdb6A&usqp=CAU'
-    ).save()
-    return profile
-
-
-@pytest.fixture()
-def logged_jon(client):
+def logged_jon(client, user_jon):
     logged_user = client.force_login(User.objects.get(username='jon'))
     return logged_user
 
 
 @pytest.fixture()
-def ketchup():
+def ketchup(db):
     ketchup = Product.objects.create(
         id=1,
         name="Ketchup",
@@ -56,10 +45,10 @@ def maionese():
 
 
 @pytest.fixture()
-def jon_ketchup(ketchup, profile_jon):
+def jon_ketchup(ketchup, user_jon):
     product = Product.objects.first()
     ketchup_registrado = UserStore.objects.create(
-        owner=Profile.objects.get(user__username='jon'),
+        owner=User.objects.get(username='jon'),
         product=product,
         target_quantity=1,
         real_quantity=0,
@@ -68,10 +57,10 @@ def jon_ketchup(ketchup, profile_jon):
 
 
 @pytest.fixture()
-def jon_maionese(maionese, profile_jon):
+def jon_maionese(maionese, user_jon):
     product = Product.objects.first()
     maionese_registrada = UserStore.objects.create(
-        owner=Profile.objects.get(user__username='jon'),
+        owner=User.objects.get(username='jon'),
         product=product,
         target_quantity=3,
         real_quantity=2,

@@ -1,6 +1,6 @@
+from django.contrib.auth.models import User
 from django.db.models import F, Q
 
-from ...accounts.models import User
 from ..models import Product, UserStore
 
 

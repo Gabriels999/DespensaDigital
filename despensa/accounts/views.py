@@ -19,7 +19,6 @@ def login(request):
     #     username = data.get("username")
     #     password = data.get("password")
     user = auth.authenticate(username=username, password=password)
-    print(user)
     user_dict = None
     if user is not None:
         if user.is_active:
