@@ -1,6 +1,7 @@
-from ...accounts.models import Profile
-from ..models import Product, UserStore
 from django.db.models import F, Q
+
+from ...accounts.models import User
+from ..models import Product, UserStore
 
 
 def list_all_products():
@@ -9,13 +10,13 @@ def list_all_products():
 
 
 def list_products(id):
-    products = UserStore.objects.filter(owner=Profile.objects.get(user__id=id))
+    products = UserStore.objects.filter(owner=User.objects.get(user__id=id))
     return [product.to_dict_json() for product in products]
 
 
 def add_product_to_UserStore(new_product, user_id):
     product = Product.objects.get(id=new_product['id'])
-    logged_user = Profile.objects.get(user__id=user_id)
+    logged_user = User.objects.get(user__id=user_id)
     product_user_store = UserStore(
         owner=logged_user,
         product=product,
@@ -47,7 +48,7 @@ def register_product(new_product, user_id):
 
 def edit_product(new_version_product, user_id):
     product_to_update = UserStore.objects.filter(
-        Q(owner=Profile.objects.get(user__id=user_id)),
+        Q(owner=User.objects.get(user__id=user_id)),
         Q(product=Product.objects.get(id=new_version_product.get('id')))
     )
     product_to_update.update(
@@ -59,17 +60,17 @@ def edit_product(new_version_product, user_id):
 
 def remove_product(user_id, id):
     product_in_UserStore = UserStore.objects.filter(
-        owner=Profile.objects.get(user__id=user_id),
+        owner=User.objects.get(user__id=user_id),
         product=Product.objects.get(id=id)
     )
     product_in_UserStore.delete()
-    products_list = UserStore.objects.filter(owner=Profile.objects.get(user__id=user_id))
+    products_list = UserStore.objects.filter(owner=User.objects.get(user__id=user_id))
     return [product.to_dict_json() for product in products_list]
 
 
 def use_product(user_id, id):
     product = UserStore.objects.filter(
-        owner=Profile.objects.get(user__id=user_id),
+        owner=User.objects.get(user__id=user_id),
         product=Product.objects.get(id=id),
     )
     if product.values('real_quantity').first().get('real_quantity') > 0:
@@ -81,14 +82,14 @@ def use_product(user_id, id):
 
 def shopping_list(user_id):
     products = UserStore.objects.filter(
-        owner=Profile.objects.get(user__id=user_id),
+        owner=User.objects.get(user__id=user_id),
         real_quantity__lt=F('target_quantity'))
     return [product.to_dict_json() for product in products]
 
 
 def shop_product(user_id, id):
     product = UserStore.objects.filter(
-        owner=Profile.objects.get(user__id=user_id),
+        owner=User.objects.get(user__id=user_id),
         product=Product.objects.get(id=id)
         )
     product.update(real_quantity=F('real_quantity')+1)

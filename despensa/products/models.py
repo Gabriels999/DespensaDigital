@@ -1,5 +1,6 @@
 from django.db import models
-from ..accounts.models import User, Profile
+
+from ..accounts.models import User
 
 
 class ActivityLog(models.Model):
@@ -52,7 +53,7 @@ class Product(models.Model):
 
 
 class UserStore(models.Model):
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     target_quantity = models.IntegerField()
     real_quantity = models.IntegerField()
