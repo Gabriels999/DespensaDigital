@@ -38,6 +38,18 @@ export default {
         });
     });
   },
+  registerProduct: (product) => {
+    return new Promise((resolve, reject) => {
+      api
+        .post("/api/products/register_product", apiHelpers.dataToForm(product))
+        .then((response) => {
+          return resolve(response.data);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+  },
   createProduct: (product) => {
     return new Promise((resolve, reject) => {
       api

@@ -105,6 +105,7 @@ export default {
       if(this.addToUserStore){
         newProduct["target_quantity"] = this.target_quantity
         newProduct["real_quantity"] = this.real_quantity
+        newProduct["add_to_user_store"] = this.addToUserStore
       }
       this.$emit('registerProduct', newProduct)
       this.closePopup()
