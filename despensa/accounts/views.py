@@ -1,6 +1,9 @@
 # coding: utf-8
-from django.http import JsonResponse
+import json
+import pdb
+
 from django.contrib import auth
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from ..products.service import log_svc
@@ -8,8 +11,13 @@ from ..products.service import log_svc
 
 @csrf_exempt
 def login(request):
-    username = request.POST["username"]
-    password = request.POST["password"]
+    print(request.POST)
+    # username = request.POST["username"]
+    # password = request.POST["password"]
+    if request.method == "POST":
+        data = json.loads(request.body.decode("utf-8"))
+        username = data.get("username")
+        password = data.get("password")
     user = auth.authenticate(username=username, password=password)
     user_dict = None
     if user is not None:
