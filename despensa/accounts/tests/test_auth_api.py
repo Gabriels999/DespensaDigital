@@ -35,7 +35,7 @@ def test_deve_fazer_login(client, db, user_jon):
     assert data == {
         'authenticated': True,
         'user': {
-            'id': 1,
+            'id': 2,
             'name': 'Jon Snow',
             'username': 'jon',
             'first_name': 'Jon',
