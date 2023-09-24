@@ -37,8 +37,9 @@
             rounded="pill"
             color="primary"
             variant="outlined"
-            :to="{ name: 'base-home' }">
-            Início
+            append-icon="mdi-chevron-right"
+            @click="signup">
+            Sign Up
           </v-btn>
         </v-form>
       </v-col>
@@ -95,6 +96,9 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    signup(){
+      this.$router.push({ name: "accounts-signup"})
     },
     saveLoggedUser(user) {
       this.error = !user
