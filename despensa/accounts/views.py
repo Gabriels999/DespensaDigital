@@ -14,10 +14,6 @@ from ..products.service import log_svc
 def login(request):
     username = request.POST["username"]
     password = request.POST["password"]
-    # if request.method == "POST":
-    #     data = json.loads(request.body.decode("utf-8"))
-    #     username = data.get("username")
-    #     password = data.get("password")
     user = auth.authenticate(username=username, password=password)
     user_dict = None
     if user is not None:
@@ -35,7 +31,7 @@ def signup(request):
         password = request.POST["password"]
         new_user = User.objects.create(username=username, password=make_password(password))
         log_svc.log_signup(new_user)
-    return JsonResponse({'message': 'Usuário criado com sucesso.'}, safe=False)
+    return JsonResponse({'message': 'Usuario criado com sucesso.'}, safe=False)
 
 
 def logout(request):

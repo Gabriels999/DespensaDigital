@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.models import User
 
 
@@ -49,7 +51,6 @@ def test_deve_fazer_login(client, db, user_jon):
 
 
 def test_deve_fazer_logout(client, db, logged_jon):
-    # client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/accounts/logout')
 
     assert resp.status_code == 200
@@ -59,3 +60,10 @@ def test_deve_fazer_logout(client, db, logged_jon):
 def test_deve_fazer_logout_mesmo_sem_login(client, db):
     resp = client.post('/api/accounts/logout')
     assert resp.status_code == 200
+
+
+def test_deve_criar_usuario(client, db):
+    resp = client.post('/api/accounts/signup', {'username': 'ned', 'password': 'stark'})
+
+    assert resp.status_code == 200
+    assert json.loads(resp.content.decode('utf-8')) == {'message': 'Usuario criado com sucesso.'}
