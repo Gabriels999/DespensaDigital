@@ -1,5 +1,5 @@
+from django.contrib.auth.models import User
 from django.db import models
-from ..accounts.models import User, Profile
 
 
 class ActivityLog(models.Model):
@@ -52,7 +52,7 @@ class Product(models.Model):
 
 
 class UserStore(models.Model):
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     target_quantity = models.IntegerField()
     real_quantity = models.IntegerField()
@@ -61,13 +61,13 @@ class UserStore(models.Model):
         ordering = ['owner']
 
     def __str__(self):
-        return f"{self.owner.user.username} | {self.product.name}"
+        return f"{self.owner.username} | {self.product.name}"
 
     def to_dict_json(self):
         return {
             'owner': {
                 'owner_id': self.owner.id,
-                'owner_name': self.owner.user.username,
+                'owner_name': self.owner.username,
             },
             "product": {
                 'id': self.product.id,

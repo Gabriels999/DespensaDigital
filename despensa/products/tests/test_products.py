@@ -6,8 +6,7 @@ def test_criar_produto_sem_login(client):
     assert resp.status_code == 401
 
 
-def test_criar_produto_com_login(client, profile_jon):
-    client.force_login(User.objects.get(username='jon'))
+def test_criar_produto_com_login(client, db, logged_jon):
     resp = client.post('/api/products/register_product', {"id": 1, "name": 'Ketchup', "price": 14.9, "type": 'Secos'})
     data = resp.json()
     assert resp.status_code == 200
@@ -19,8 +18,7 @@ def test_criar_produto_com_login(client, profile_jon):
     }
 
 
-def test_criar_produto_e_adicionar_a_despensa_com_login(client, profile_jon):
-    client.force_login(User.objects.get(username='jon'))
+def test_criar_produto_e_adicionar_a_despensa_com_login(client, db, logged_jon):
     resp = client.post('/api/products/register_product', {
         "id": 1, "name": 'Ketchup', "price": 14.9, "type": 'Secos', "target_quantity": 1, "real_quantity": 0
         })
@@ -34,7 +32,7 @@ def test_adicionar_produto_na_despensa_sem_login(client, db):
     assert resp.status_code == 401
 
 
-def test_adicionar_produto_na_despensa_com_login(client, profile_jon, logged_jon, ketchup):
+def test_adicionar_produto_na_despensa_com_login(client, logged_jon, ketchup):
     resp = client.post('/api/products/add_product', {"id": 1, "target_quantity": 1, "real_quantity": 0})
     data = resp.json()
     assert resp.status_code == 200

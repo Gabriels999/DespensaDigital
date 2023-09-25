@@ -1,8 +1,9 @@
 # coding: utf-8
 import json
-import pdb
 
 from django.contrib import auth
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,13 +12,8 @@ from ..products.service import log_svc
 
 @csrf_exempt
 def login(request):
-    print(request.POST)
-    # username = request.POST["username"]
-    # password = request.POST["password"]
-    if request.method == "POST":
-        data = json.loads(request.body.decode("utf-8"))
-        username = data.get("username")
-        password = data.get("password")
+    username = request.POST["username"]
+    password = request.POST["password"]
     user = auth.authenticate(username=username, password=password)
     user_dict = None
     if user is not None:
@@ -26,6 +22,16 @@ def login(request):
             log_svc.log_login(request.user)
             user_dict = _user2dict(user)
     return JsonResponse(user_dict, safe=False)
+
+
+@csrf_exempt
+def signup(request):
+    if request.method == 'POST':
+        username = request.POST["username"]
+        password = request.POST["password"]
+        new_user = User.objects.create(username=username, password=make_password(password))
+        log_svc.log_signup(new_user)
+    return JsonResponse({'message': 'Usuario criado com sucesso.'}, safe=False)
 
 
 def logout(request):
